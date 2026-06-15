@@ -11,303 +11,280 @@
 <link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@400;600;700;800&family=Noto+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
 <style>
 :root {
-  --navy: #0f1f3d;
-  --navy2: #1a3a6e;
-  --saffron: #ff6b00;
-  --saffron2: #ff9500;
-  --green: #00b877;
-  --red: #e63946;
-  --yellow: #ffd60a;
-  --purple: #7c3aed;
-  --blue: #2563eb;
-  --bg: #f0f4ff;
-  --card: #ffffff;
-  --text: #1a1a2e;
-  --muted: #6b7280;
-  --border: #e2e8f0;
-  --shadow: 0 2px 12px rgba(0,0,0,0.08);
+  --navy: #0f1f3d; --navy2: #1a3a6e;
+  --saffron: #ff6b00; --green: #00b877;
+  --red: #e63946; --yellow: #ffd60a;
+  --purple: #7c3aed; --blue: #2563eb;
+  --text: #1a1a2e; --muted: #4b5563;
+  --border: rgba(255, 255, 255, 0.4);
+  --shadow: 0 8px 32px rgba(31, 38, 135, 0.1);
 }
 
-/* ─── DARK MODE VARIABLES ─── */
 body.dark-mode {
-  --bg: #121212;
-  --card: #1e1e24;
   --text: #f0f0f0;
-  --navy: #1a1a2e;
-  --navy2: #24243e;
-  --border: #333333;
+  --navy: #1a1a2e; --navy2: #24243e;
+  --border: rgba(255, 255, 255, 0.1);
   --muted: #a0a0a0;
-  --shadow: 0 4px 15px rgba(0,0,0,0.4);
+  --shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
 }
 
 * { margin:0; padding:0; box-sizing:border-box; -webkit-tap-highlight-color:transparent; }
 html { scroll-behavior: smooth; }
+
+/* ─── 🌟 STARRY ANIMATION & BACKGROUND ─── */
+@keyframes moveStars {
+  from { background-position: 0 0, 25px 25px, 0 0; }
+  to { background-position: 100px 100px, 125px 125px, 0 0; }
+}
 body {
   font-family: 'Noto Sans', sans-serif;
-  background: var(--bg);
-  color: var(--text);
-  min-height: 100vh;
-  overscroll-behavior: none;
-  transition: background 0.3s, color 0.3s;
+  color: var(--text); min-height: 100vh; overscroll-behavior: none;
+  transition: color 0.3s;
+  background-image: 
+    radial-gradient(rgba(255,255,255,0.8) 1px, transparent 1px),
+    radial-gradient(rgba(255,255,255,0.4) 1px, transparent 1px),
+    linear-gradient(135deg, #e0c3fc 0%, #8ec5fc 100%);
+  background-size: 50px 50px, 70px 70px, 100% 100%;
+  background-attachment: fixed;
+  animation: moveStars 15s linear infinite;
+}
+body.dark-mode {
+  background-image: 
+    radial-gradient(rgba(255,255,255,0.5) 1px, transparent 1px),
+    radial-gradient(rgba(255,255,255,0.2) 1px, transparent 1px),
+    linear-gradient(135deg, #0f1f3d 0%, #050505 100%);
 }
 
-/* ─── DARK MODE SPECIFIC FIXES ─── */
-body.dark-mode .subj-card, body.dark-mode .stat-card, body.dark-mode .pyq-item, 
-body.dark-mode .syl-subject, body.dark-mode .wt-card, body.dark-mode .question-card, 
-body.dark-mode .exam-tabs, body.dark-mode .bottom-nav {
-  background: var(--card);
-  border-color: var(--border);
+/* ─── 🪟 GLASSMORPHISM ─── */
+.stat-card, .subj-card, .pyq-item, .wt-card, .syl-subject, .exam-tabs, .bottom-nav, .question-card, .exp-box {
+  background: rgba(255, 255, 255, 0.5) !important;
+  backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px);
+  border: 1px solid var(--border) !important;
+  box-shadow: var(--shadow);
 }
-body.dark-mode .subj-card.math, body.dark-mode .subj-card.gk, 
-body.dark-mode .subj-card.eng, body.dark-mode .subj-card.reason {
-  background: linear-gradient(135deg, #2a2a35, var(--card));
-}
-body.dark-mode .subj-card h3, body.dark-mode .pyq-name, body.dark-mode .syl-subj-name, 
-body.dark-mode .wt-subj-name, body.dark-mode .q-text {
-  color: #ffffff;
+body.dark-mode .stat-card, body.dark-mode .subj-card, body.dark-mode .pyq-item, 
+body.dark-mode .wt-card, body.dark-mode .syl-subject, body.dark-mode .exam-tabs, 
+body.dark-mode .bottom-nav, body.dark-mode .question-card, body.dark-mode .exp-box {
+  background: rgba(20, 20, 25, 0.6) !important; color: white;
 }
 
-/* ─── HEADER ─── */
 header {
-  background: var(--navy);
-  padding: 12px 16px;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  position: sticky; top:0; z-index:200;
-  box-shadow: 0 2px 16px rgba(0,0,0,0.4);
+  background: rgba(15, 31, 61, 0.85); backdrop-filter: blur(10px);
+  padding: 12px 16px; display: flex; align-items: center; justify-content: space-between;
+  position: sticky; top:0; z-index:200; border-bottom: 1px solid rgba(255,255,255,0.1);
 }
 .logo { font-family:'Baloo 2',cursive; font-size:22px; font-weight:800; color:var(--yellow); }
 .logo span { color:var(--saffron); }
 .header-right { display: flex; align-items: center; gap: 12px; }
 .theme-btn { background: rgba(255,255,255,0.15); border: none; font-size: 16px; width: 32px; height: 32px; border-radius: 50%; cursor: pointer; transition: 0.2s; }
-.offline-badge {
-  background: var(--green); color: white; font-size:10px; font-weight:700;
-  padding:3px 8px; border-radius:20px; letter-spacing:0.5px;
-}
+.offline-badge { background: var(--green); color: white; font-size:10px; font-weight:700; padding:3px 8px; border-radius:20px; letter-spacing:0.5px; }
 
-/* ─── BOTTOM NAV ─── */
-.bottom-nav {
-  position: fixed; bottom:0; left:0; right:0;
-  background: white;
-  display: flex;
-  overflow-x: auto; /* Allows scrolling if buttons don't fit */
-  scrollbar-width: none;
-  border-top: 1px solid var(--border);
-  z-index: 200;
-  box-shadow: 0 -4px 20px rgba(0,0,0,0.1);
-  padding-bottom: env(safe-area-inset-bottom);
-}
-.bottom-nav::-webkit-scrollbar { display: none; }
-.nav-item {
-  flex: 0 0 16.66%; /* 6 items width */
-  min-width: 65px;
-  display:flex; flex-direction:column; align-items:center;
-  padding:10px 2px 8px;
-  cursor:pointer; transition: all 0.2s;
-  border:none; background:none;
-  color: var(--muted);
-  font-size:10px; font-family:'Noto Sans',sans-serif; gap:4px;
-}
+.bottom-nav { position: fixed; bottom:0; left:0; right:0; display: flex; z-index: 200; padding-bottom: env(safe-area-inset-bottom); }
+.nav-item { flex: 1; display:flex; flex-direction:column; align-items:center; padding:10px 2px 8px; cursor:pointer; transition: all 0.2s; border:none; background:none; color: var(--muted); font-size:10px; font-family:'Noto Sans',sans-serif; gap:4px; }
+body.dark-mode .nav-item { color: rgba(255,255,255,0.6); }
 .nav-item .nav-icon { font-size:18px; line-height:1; }
-.nav-item.active { color: var(--saffron); }
+.nav-item.active { color: var(--navy); font-weight: bold; }
+body.dark-mode .nav-item.active { color: var(--yellow); }
 .nav-item.active .nav-icon { transform: scale(1.15); }
 
-/* ─── SCREENS ─── */
 .screen { display:none; padding-bottom:90px; }
 .screen.active { display:block; }
 
-/* ─── HOME ─── */
-.hero {
-  background: linear-gradient(135deg, var(--navy) 0%, var(--navy2) 100%);
-  padding: 24px 16px 28px; position: relative; overflow:hidden;
-}
-.hero::before {
-  content:''; position:absolute; top:-40px; right:-40px;
-  width:200px; height:200px; border-radius:50%; background: rgba(255,214,10,0.08);
-}
-.hero-tag {
-  display:inline-block; background:rgba(255,214,10,0.15);
-  color:var(--yellow); font-size:11px; font-weight:700;
-  padding:4px 10px; border-radius:20px; margin-bottom:10px; letter-spacing:0.5px;
-}
-.hero h1 {
-  font-family:'Baloo 2',cursive; font-size:24px; font-weight:800;
-  color:white; line-height:1.25; margin-bottom:6px;
-}
-.hero h1 em { color:var(--yellow); font-style:normal; }
-.hero p { color:rgba(255,255,255,0.65); font-size:12px; }
+.hero { padding: 24px 16px 28px; position: relative; overflow:hidden; }
+.hero-tag { display:inline-block; background:rgba(255,214,10,0.2); color:var(--navy); font-size:11px; font-weight:700; padding:4px 10px; border-radius:20px; margin-bottom:10px; }
+body.dark-mode .hero-tag { color: var(--yellow); }
+.hero h1 { font-family:'Baloo 2',cursive; font-size:24px; font-weight:800; color:var(--navy); line-height:1.25; margin-bottom:6px; }
+body.dark-mode .hero h1 { color: white; }
+.hero h1 em { color:var(--saffron); font-style:normal; }
+.hero p { color:var(--muted); font-size:12px; font-weight:600; }
+body.dark-mode .hero p { color: rgba(255,255,255,0.7); }
 .hero-chips { display:flex; gap:8px; margin-top:14px; flex-wrap:wrap; }
-.hero-chip {
-  background:rgba(255,255,255,0.12); color:white; font-size:11px;
-  padding:5px 10px; border-radius:20px; font-weight:600;
-}
+.hero-chip { background:rgba(15, 31, 61, 0.1); color:var(--navy); font-size:11px; padding:5px 10px; border-radius:20px; font-weight:700; }
+body.dark-mode .hero-chip { background:rgba(255,255,255,0.15); color:white; }
 
 .stats-row { display:flex; gap:10px; padding:14px 14px 0; }
-.stat-card {
-  flex:1; background:white; border-radius:14px;
-  padding:14px 8px; text-align:center; box-shadow: var(--shadow);
-}
+.stat-card { flex:1; border-radius:14px; padding:14px 8px; text-align:center; }
 .stat-num { font-family:'Baloo 2',cursive; font-size:22px; font-weight:800; color:var(--navy); line-height:1; }
+body.dark-mode .stat-num { color: white; }
 .stat-num.orange { color:var(--saffron); }
 .stat-num.green { color:var(--green); }
-.stat-label { font-size:10px; color:var(--muted); margin-top:3px; }
+.stat-label { font-size:10px; color:var(--muted); margin-top:3px; font-weight:600; }
 
-.section-head {
-  padding:18px 16px 10px; display:flex; align-items:center; justify-content:space-between;
-}
+.section-head { padding:18px 16px 10px; display:flex; align-items:center; justify-content:space-between; }
 .section-head h2 { font-family:'Baloo 2',cursive; font-size:16px; font-weight:800; color:var(--navy); }
+body.dark-mode .section-head h2 { color: white; }
 
-.subject-grid {
-  display:grid; grid-template-columns:1fr 1fr; gap:10px; padding:0 14px;
-}
-.subj-card {
-  background:white; border-radius:16px; padding:16px 14px; cursor:pointer;
-  box-shadow:var(--shadow); border:2px solid transparent;
-  transition: transform 0.15s, box-shadow 0.15s; position:relative; overflow:hidden;
-}
+.subject-grid { display:grid; grid-template-columns:1fr 1fr; gap:10px; padding:0 14px; }
+.subj-card { border-radius:16px; padding:16px 14px; cursor:pointer; position:relative; overflow:hidden; }
 .subj-card:active { transform:scale(0.96); }
-.subj-card.math { border-color:#ff6b00; background:linear-gradient(135deg,#fff7f2,white); }
-.subj-card.gk { border-color:#00b877; background:linear-gradient(135deg,#f0fff9,white); }
-.subj-card.eng { border-color:#7c3aed; background:linear-gradient(135deg,#f8f5ff,white); }
-.subj-card.reason { border-color:#f59e0b; background:linear-gradient(135deg,#fffdf0,white); }
 .subj-card .s-icon { font-size:30px; margin-bottom:8px; display:block; }
 .subj-card h3 { font-size:13px; font-weight:700; color:var(--navy); margin-bottom:2px; }
-.subj-card p { font-size:10px; color:var(--muted); line-height:1.4; }
-.subj-badge {
-  position:absolute; top:10px; right:10px; background:var(--bg); color:var(--muted);
-  font-size:9px; font-weight:700; padding:2px 6px; border-radius:8px;
-}
+body.dark-mode .subj-card h3 { color: white; }
+.subj-card p { font-size:10px; color:var(--muted); line-height:1.4; font-weight:500; }
+.subj-badge { position:absolute; top:10px; right:10px; background:rgba(0,0,0,0.05); color:var(--navy); font-size:9px; font-weight:700; padding:2px 6px; border-radius:8px; }
+body.dark-mode .subj-badge { background: rgba(255,255,255,0.1); color: white; }
 
-.booster-card {
-  margin:14px 14px 0; background:linear-gradient(135deg,#ff6b00,#ff9500);
-  border-radius:18px; padding:18px; display:flex; align-items:center; gap:14px;
-  cursor:pointer; box-shadow:0 6px 20px rgba(255,107,0,0.35);
-  transition:transform 0.15s; border:none; width:calc(100% - 28px);
-}
+.booster-card { margin:14px 14px 0; background:linear-gradient(135deg,#ff6b00,#ff9500) !important; border-radius:18px; padding:18px; display:flex; align-items:center; gap:14px; cursor:pointer; box-shadow:0 6px 20px rgba(255,107,0,0.35); border:none; width:calc(100% - 28px); }
 .booster-card:active { transform:scale(0.98); }
 .booster-card .b-icon { font-size:42px; }
 .booster-card h3 { font-family:'Baloo 2',cursive; font-size:17px; font-weight:800; color:white; }
 .booster-card p { font-size:11px; color:rgba(255,255,255,0.85); margin-top:2px; }
 
-/* ─── PYQ SCREEN ─── */
-.exam-tabs {
-  display:flex; background:white; border-bottom:2px solid var(--border);
-  position:sticky; top:56px; z-index:10;
-}
-.exam-tab {
-  flex:1; padding:12px; text-align:center; font-size:13px; font-weight:700;
-  cursor:pointer; border:none; background:none;
-  color:var(--muted); font-family:'Noto Sans',sans-serif;
-  border-bottom:3px solid transparent; transition:all 0.2s;
-}
-.exam-tab.active { color:var(--saffron); border-bottom-color:var(--saffron); }
+.thick-divider { height: 4px; background: var(--border); margin: 24px 16px 10px; border-radius: 2px; }
+.tool-card { border: 2px solid; }
+.tool-card.planner { border-color: var(--saffron); background: linear-gradient(135deg, rgba(255,107,0,0.1), rgba(255,149,0,0.05)) !important; }
+.tool-card.mock { border-color: var(--green); background: linear-gradient(135deg, rgba(0,184,119,0.1), rgba(0,184,119,0.05)) !important; }
 
+.exam-tabs { position:sticky; top:56px; z-index:10; border-bottom: none; display: flex;}
+.exam-tab { flex:1; padding:12px; text-align:center; font-size:13px; font-weight:700; cursor:pointer; border:none; background:none; color:var(--muted); border-bottom:3px solid transparent; transition:all 0.2s; }
+.exam-tab.active { color:var(--navy); border-bottom-color:var(--navy); }
+body.dark-mode .exam-tab.active { color:var(--yellow); border-bottom-color:var(--yellow); }
 .pyq-year-group { padding:0 14px; }
-.year-label {
-  font-family:'Baloo 2',cursive; font-size:13px; font-weight:800;
-  color:var(--muted); padding:16px 0 8px; text-transform:uppercase; letter-spacing:1px;
-}
+.year-label { font-family:'Baloo 2',cursive; font-size:13px; font-weight:800; color:var(--navy); padding:16px 0 8px; text-transform:uppercase; letter-spacing:1px; }
+body.dark-mode .year-label { color: white; }
 .pyq-list { display:flex; flex-direction:column; gap:10px; margin-bottom:8px; }
-.pyq-item {
-  background:white; border-radius:14px; padding:14px 16px; cursor:pointer;
-  box-shadow:var(--shadow); display:flex; align-items:center; gap:14px;
-  transition:transform 0.15s; border:none; width:100%; text-align:left;
-  font-family:'Noto Sans',sans-serif;
-}
+.pyq-item { border-radius:14px; padding:14px 16px; cursor:pointer; display:flex; align-items:center; gap:14px; transition:transform 0.15s; width:100%; text-align:left; }
 .pyq-item:active { transform:scale(0.98); }
 .pyq-left { flex:1; }
 .pyq-name { font-size:14px; font-weight:700; color:var(--navy); margin-bottom:3px; }
-.pyq-meta { font-size:11px; color:var(--muted); }
-.pyq-arrow { color:var(--muted); font-size:18px; }
-.pyq-pill {
-  background:var(--bg); color:var(--saffron); font-size:10px; font-weight:700;
-  padding:4px 8px; border-radius:8px;
-}
+body.dark-mode .pyq-name { color: white; }
+.pyq-meta { font-size:11px; color:var(--muted); font-weight: 500;}
+.pyq-arrow { color:var(--navy); font-size:18px; }
+body.dark-mode .pyq-arrow { color: white; }
+.pyq-pill { background:rgba(255,107,0,0.1); color:var(--saffron); font-size:10px; font-weight:700; padding:4px 8px; border-radius:8px; }
 
-/* ─── SYLLABUS SCREEN ─── */
-.syllabus-tabs {
-  display:flex; overflow-x:auto; gap:8px; padding:14px 14px 10px;
-  -webkit-overflow-scrolling:touch; scrollbar-width:none;
-}
-.syllabus-tabs::-webkit-scrollbar { display:none; }
-.syl-tab {
-  white-space:nowrap; padding:8px 16px; border-radius:20px; border:2px solid var(--border);
-  background:white; color:var(--muted); font-size:12px; font-weight:700;
-  cursor:pointer; transition:all 0.2s; font-family:'Noto Sans',sans-serif;
-}
+.syllabus-tabs { display:flex; overflow-x:auto; gap:8px; padding:14px 14px 10px; scrollbar-width:none; }
+.syl-tab { white-space:nowrap; padding:8px 16px; border-radius:20px; border:1px solid var(--border); background:rgba(255,255,255,0.4); color:var(--navy); font-size:12px; font-weight:700; cursor:pointer; transition:all 0.2s; backdrop-filter: blur(5px); }
+body.dark-mode .syl-tab { background: rgba(0,0,0,0.3); color: white; }
 .syl-tab.active { background:var(--navy); color:white; border-color:var(--navy); }
-
 .syl-section { padding:0 14px; }
-.syl-exam-name {
-  background:linear-gradient(135deg,var(--navy),var(--navy2));
-  color:white; border-radius:14px; padding:16px; margin-bottom:14px;
-}
+.syl-exam-name { background:linear-gradient(135deg,var(--navy),var(--navy2)) !important; color:white; border-radius:14px; padding:16px; margin-bottom:14px; }
 .syl-exam-name h3 { font-family:'Baloo 2',cursive; font-size:16px; font-weight:800; margin-bottom:4px; }
 .syl-exam-name p { font-size:11px; color:rgba(255,255,255,0.7); }
-
-.syl-subject { background:white; border-radius:14px; margin-bottom:10px; overflow:hidden; box-shadow:var(--shadow); }
+.syl-subject { border-radius:14px; margin-bottom:10px; overflow:hidden; }
 .syl-subj-head { padding:14px 16px; display:flex; align-items:center; gap:10px; cursor:pointer; }
 .syl-subj-head .s-dot { width:10px; height:10px; border-radius:50%; flex-shrink:0; }
 .syl-subj-name { font-weight:700; font-size:14px; color:var(--navy); flex:1; }
+body.dark-mode .syl-subj-name { color: white; }
 .syl-weight { font-family:'Baloo 2',cursive; font-size:13px; font-weight:800; color:var(--saffron); }
-.syl-chevron { color:var(--muted); transition:transform 0.25s; font-size:14px; }
+.syl-chevron { color:var(--navy); transition:transform 0.25s; font-size:14px; }
+body.dark-mode .syl-chevron { color: white; }
 .syl-chevron.open { transform:rotate(90deg); }
 .syl-topics { display:none; padding:0 16px 14px; border-top:1px solid var(--border); }
 .syl-topics.open { display:block; }
-.syl-topic-item {
-  display:flex; align-items:flex-start; gap:8px; padding:6px 0; font-size:12px; color:var(--text);
-  border-bottom:1px solid var(--bg);
-}
-.syl-topic-item:last-child { border-bottom:none; }
-.syl-topic-item::before { content:'▸'; color:var(--saffron); flex-shrink:0; margin-top:1px; }
+.syl-topic-item { display:flex; align-items:flex-start; gap:8px; padding:6px 0; font-size:12px; font-weight: 500; border-bottom:1px solid rgba(0,0,0,0.05); }
 
-/* ─── WEIGHTAGE SCREEN ─── */
 .wt-tabs { display:flex; overflow-x:auto; gap:8px; padding:14px 14px 10px; scrollbar-width:none; }
-.wt-tabs::-webkit-scrollbar { display:none; }
-.wt-tab {
-  white-space:nowrap; padding:8px 16px; border-radius:20px; border:2px solid var(--border);
-  background:white; color:var(--muted); font-size:12px; font-weight:700; cursor:pointer;
-  transition:all 0.2s; font-family:'Noto Sans',sans-serif;
-}
+.wt-tab { white-space:nowrap; padding:8px 16px; border-radius:20px; border:1px solid var(--border); background:rgba(255,255,255,0.4); color:var(--navy); font-size:12px; font-weight:700; cursor:pointer; backdrop-filter: blur(5px); }
+body.dark-mode .wt-tab { background: rgba(0,0,0,0.3); color: white; }
 .wt-tab.active { background:var(--saffron); color:white; border-color:var(--saffron); }
-
 .wt-section { padding:0 14px; }
-.wt-card { background:white; border-radius:16px; padding:16px; margin-bottom:10px; box-shadow:var(--shadow); }
+.wt-card { border-radius:16px; padding:16px; margin-bottom:10px; }
 .wt-subj-row { display:flex; align-items:center; gap:10px; margin-bottom:10px; }
 .wt-subj-icon { font-size:22px; }
 .wt-subj-name { font-weight:700; font-size:14px; color:var(--navy); flex:1; }
+body.dark-mode .wt-subj-name { color: white; }
 .wt-qs { font-family:'Baloo 2',cursive; font-size:16px; font-weight:800; color:var(--saffron); }
-.wt-bar-bg { background:var(--bg); border-radius:6px; height:8px; margin-bottom:12px; }
+.wt-bar-bg { background:rgba(0,0,0,0.1); border-radius:6px; height:8px; margin-bottom:12px; }
+body.dark-mode .wt-bar-bg { background: rgba(255,255,255,0.1); }
 .wt-bar-fill { height:8px; border-radius:6px; transition:width 1s ease; }
 .wt-topics-grid { display:flex; flex-wrap:wrap; gap:6px; }
-.wt-topic-chip {
-  background:var(--bg); color:var(--navy); font-size:11px; font-weight:600;
-  padding:5px 10px; border-radius:8px; display:flex; align-items:center; gap:4px;
-}
+.wt-topic-chip { background:rgba(255,255,255,0.5); color:var(--navy); font-size:11px; font-weight:600; padding:5px 10px; border-radius:8px; display:flex; align-items:center; gap:4px; border: 1px solid var(--border); }
+body.dark-mode .wt-topic-chip { background: rgba(0,0,0,0.3); color: white; }
 .wt-topic-chip .chip-qs { color:var(--saffron); font-weight:800; }
-
-.wt-insight {
-  background:linear-gradient(135deg,#fff8e8,#fffcf0); border:1px solid #ffd60a;
-  border-radius:12px; padding:14px; margin-bottom:14px;
-}
+.wt-insight { background:linear-gradient(135deg, rgba(255,248,232,0.8), rgba(255,252,240,0.8)) !important; border:1px solid #ffd60a !important; border-radius:12px; padding:14px; margin-bottom:14px; backdrop-filter: blur(10px); }
+body.dark-mode .wt-insight { background: linear-gradient(135deg, rgba(50,40,10,0.8), rgba(30,25,5,0.8)) !important; }
 .wt-insight h4 { font-size:13px; font-weight:700; color:var(--navy); margin-bottom:6px; }
-.wt-insight p { font-size:12px; color:var(--muted); line-height:1.5; }
+body.dark-mode .wt-insight h4 { color: var(--yellow); }
+.wt-insight p { font-size:12px; font-weight:600; line-height:1.5; }
 
-/* ─── TOAST & FOOTER ─── */
-.toast {
-  position:fixed; bottom:90px; left:50%; transform:translateX(-50%) translateY(20px);
-  background:var(--navy); color:white; padding:10px 18px;
-  border-radius:20px; font-size:12px; font-weight:600;
-  opacity:0; transition:all 0.3s; z-index:500;
-  pointer-events:none; white-space:nowrap;
-}
+.toast { position:fixed; bottom:90px; left:50%; transform:translateX(-50%) translateY(20px); background:var(--navy); color:white; padding:10px 18px; border-radius:20px; font-size:12px; font-weight:600; opacity:0; transition:all 0.3s; z-index:500; pointer-events:none; white-space:nowrap; }
 .toast.show { opacity:1; transform:translateX(-50%) translateY(0); }
+.app-footer { text-align: center; margin-top: 30px; margin-bottom: 20px; padding: 10px; font-family: sans-serif; color: var(--navy); font-weight: 600; font-size: 12px; }
+body.dark-mode .app-footer { color: rgba(255,255,255,0.6); }
 
-.app-footer {
-  text-align: center; margin-top: 30px; margin-bottom: 20px;
-  padding: 10px; font-family: sans-serif; color: var(--muted); font-size: 12px;
-}
+/* Overlays for Quiz and Booster */
+#quiz-screen, #boost-screen, #result-screen { position:fixed; inset:0; z-index:400; background:var(--bg); overflow-y:auto; display:none; backdrop-filter: blur(20px); }
+#quiz-screen.show, #boost-screen.show, #result-screen.show { display:block; }
+body.dark-mode #quiz-screen, body.dark-mode #boost-screen, body.dark-mode #result-screen { background: #121212; }
+
+/* Quiz Styling specific */
+.quiz-header { background:var(--navy); padding:12px 16px; position:sticky; top:0; z-index:10; }
+.quiz-top { display:flex; align-items:center; gap:10px; margin-bottom:10px; }
+.back-btn { background:rgba(255,255,255,0.12); border:none; color:white; width:36px; height:36px; border-radius:50%; font-size:18px; cursor:pointer; flex-shrink:0; display:flex; align-items:center; justify-content:center; }
+.quiz-title-txt { font-family:'Baloo 2',cursive; font-size:15px; font-weight:800; color:var(--yellow); flex:1; }
+.q-pill { background:rgba(255,255,255,0.15); padding:5px 12px; border-radius:20px; font-size:13px; font-weight:700; color:white; }
+.prog-bar { background:rgba(255,255,255,0.2); height:5px; border-radius:3px; overflow:hidden; }
+.prog-fill { background:var(--yellow); height:100%; border-radius:3px; transition:width 0.4s; }
+.q-counter-txt { font-size:11px; color:rgba(255,255,255,0.55); margin-top:6px; }
+
+.question-card { margin:14px; border-radius:18px; padding:20px; box-shadow:0 4px 20px rgba(0,0,0,0.1); }
+.q-tag-chip { display:inline-block; background:rgba(0,0,0,0.1); color:var(--navy); font-size:10px; font-weight:700; padding:3px 9px; border-radius:6px; margin-bottom:12px; }
+body.dark-mode .q-tag-chip { background:rgba(255,255,255,0.1); color:white; }
+.q-text { font-size:15px; font-weight:600; color:var(--navy); line-height:1.55; margin-bottom:18px; }
+body.dark-mode .q-text { color:white; }
+
+.opts { display:flex; flex-direction:column; gap:9px; }
+.opt-btn { background:rgba(0,0,0,0.05); border:2px solid transparent; border-radius:12px; padding:13px 14px; text-align:left; font-size:13px; font-family:'Noto Sans',sans-serif; cursor:pointer; transition:all 0.15s; display:flex; align-items:center; gap:10px; color:var(--text); }
+body.dark-mode .opt-btn { background:rgba(255,255,255,0.05); color:white; }
+.opt-letter { width:28px; height:28px; border-radius:50%; background:white; border:2px solid var(--border); display:flex; align-items:center; justify-content:center; font-size:11px; font-weight:800; flex-shrink:0; color:var(--navy); }
+body.dark-mode .opt-letter { background:var(--navy); color:white; border-color:#333; }
+.opt-btn:disabled { cursor:default; }
+.opt-btn.correct { background:#e6fff4; border-color:var(--green); color:black;}
+.opt-btn.correct .opt-letter { background:var(--green); color:white; border-color:var(--green); }
+.opt-btn.wrong { background:#fff0f0; border-color:var(--red); color:black;}
+.opt-btn.wrong .opt-letter { background:var(--red); color:white; border-color:var(--red); }
+.exp-box { border:1.5px solid var(--yellow); border-radius:12px; padding:13px; margin-top:14px; font-size:12px; color:var(--navy); line-height:1.6; display:none; }
+body.dark-mode .exp-box { color:white; border-color:var(--yellow); }
+.exp-box.show { display:block; }
+.exp-box strong { color:var(--saffron); }
+
+.next-btn-q { background:var(--saffron); color:white; border:none; width:calc(100% - 28px); margin:0 14px 28px; padding:16px; border-radius:14px; font-size:15px; font-weight:800; font-family:'Baloo 2',cursive; cursor:pointer; display:none; box-shadow:0 4px 15px rgba(255,107,0,0.35); }
+.next-btn-q.show { display:block; }
+
+/* Booster Styling specific */
+.boost-header { background:linear-gradient(135deg,#ff6b00,#ff9500); padding:14px 16px; display:flex; align-items:center; gap:10px; }
+.boost-header h2 { font-family:'Baloo 2',cursive; font-size:18px; font-weight:800; color:white; flex:1; }
+.boost-header p { font-size:11px; color:rgba(255,255,255,0.85); }
+.topic-pills { display:flex; overflow-x:auto; gap:8px; padding:12px 14px; scrollbar-width:none; }
+.t-pill { white-space:nowrap; padding:8px 14px; border-radius:20px; border:2px solid var(--border); background:white; color:var(--muted); font-size:12px; font-weight:700; cursor:pointer; font-family:'Noto Sans',sans-serif; }
+body.dark-mode .t-pill { background: #24243e; color: white; border-color:#333; }
+.t-pill.active { background:var(--saffron); border-color:var(--saffron); color:white; }
+.b-stats-row { display:flex; gap:10px; padding:0 14px 12px; }
+.b-stat { flex:1; background:white; border-radius:12px; padding:12px 8px; text-align:center; box-shadow:var(--shadow); }
+body.dark-mode .b-stat { background: #1e1e24; }
+.b-stat-n { font-family:'Baloo 2',cursive; font-size:24px; font-weight:800; line-height:1; }
+.b-stat-n.g { color:var(--green); } .b-stat-n.r { color:var(--red); } .b-stat-n.b { color:var(--blue); }
+.b-stat-l { font-size:10px; color:var(--muted); margin-top:2px; }
+body.dark-mode .b-stat-l { color: #a0a0a0; }
+.calc-box { background:var(--navy); margin:0 14px 12px; border-radius:20px; padding:24px 20px; text-align:center; box-shadow:0 6px 24px rgba(0,0,0,0.25); }
+.calc-q { font-family:'Baloo 2',cursive; font-size:38px; font-weight:800; color:var(--yellow); min-height:52px; }
+.timer-txt { font-size:12px; color:rgba(255,255,255,0.55); margin:8px 0 10px; }
+.t-bar-bg { background:rgba(255,255,255,0.15); height:7px; border-radius:4px; overflow:hidden; }
+.t-bar-fill { height:100%; border-radius:4px; transition:width 0.1s linear; }
+.calc-opts-grid { display:grid; grid-template-columns:1fr 1fr; gap:10px; padding:0 14px 28px; }
+.c-opt { background:white; border:2px solid var(--border); border-radius:14px; padding:20px 10px; font-family:'Baloo 2',cursive; font-size:24px; font-weight:800; color:var(--navy); cursor:pointer; transition:all 0.15s; box-shadow:var(--shadow); }
+body.dark-mode .c-opt { background:#1e1e24; color:white; border-color:#333; }
+.c-opt:active { transform:scale(0.95); }
+.c-opt.correct { background:#e6fff4; border-color:var(--green); color:var(--green); }
+.c-opt.wrong { background:#fff0f0; border-color:var(--red); color:var(--red); }
+
+/* Result Overlay Specific */
+.res-hero { background:linear-gradient(135deg,var(--navy),var(--navy2)); padding:50px 20px 36px; text-align:center; color:white; }
+.res-emoji { font-size:64px; margin-bottom:12px; display:block; }
+.res-score { font-family:'Baloo 2',cursive; font-size:56px; font-weight:800; color:var(--yellow); line-height:1; }
+.res-of { font-size:15px; color:rgba(255,255,255,0.5); margin:4px 0; }
+.res-lbl { font-size:17px; font-weight:700; }
+.res-cards { display:grid; grid-template-columns:1fr 1fr 1fr; gap:10px; padding:16px; }
+.res-card { background:white; border-radius:14px; padding:14px 8px; text-align:center; box-shadow:var(--shadow); }
+body.dark-mode .res-card { background:#1e1e24; }
+.res-n { font-family:'Baloo 2',cursive; font-size:24px; font-weight:800; }
+.res-l { font-size:10px; color:var(--muted); margin-top:2px; }
+.res-actions { padding:0 14px 28px; display:flex; flex-direction:column; gap:10px; }
+.btn-orange { background:var(--saffron); color:white; border:none; padding:16px; border-radius:14px; font-size:15px; font-weight:800; font-family:'Baloo 2',cursive; cursor:pointer; box-shadow:0 4px 15px rgba(255,107,0,0.3); }
+.btn-white { background:white; color:var(--navy); border:2px solid var(--border); padding:14px; border-radius:14px; font-size:14px; font-weight:700; font-family:'Baloo 2',cursive; cursor:pointer; }
+body.dark-mode .btn-white { background:#1e1e24; color:white; border-color:#333; }
+
 </style>
 </head>
 <body>
@@ -384,6 +361,22 @@ header {
     </div>
   </button>
 
+  <div class="thick-divider"></div>
+
+  <div class="section-head" style="padding-top: 5px;"><h2>🎯 Premium Tools</h2></div>
+  <div class="subject-grid">
+    <div class="subj-card tool-card planner" onclick="window.location.href='planner.html'">
+      <span class="s-icon">📅</span>
+      <h3>Daily Planner</h3>
+      <p>Apna daily target set karein</p>
+    </div>
+    <div class="subj-card tool-card mock" onclick="window.location.href='mocktest.html'">
+      <span class="s-icon">📝</span>
+      <h3>Mega Mock Test</h3>
+      <p>50 Qs ka Live Test dein</p>
+    </div>
+  </div>
+
   <footer class="app-footer">
       <p>Created with ❤️ by <strong>Dev & Mahi</strong></p>
   </footer>
@@ -404,7 +397,20 @@ header {
           <span class="pyq-pill">NEW</span><span class="pyq-arrow">›</span>
         </button>
       </div>
+      <div class="year-label">2023</div>
+      <div class="pyq-list">
+        <button class="pyq-item" onclick="startQuiz('pyq_ssc23')">
+          <div>📋</div>
+          <div class="pyq-left"><div class="pyq-name">SSC CGL 2023 — Tier 1</div><div class="pyq-meta">All Shifts • 50 Questions</div></div>
+          <span class="pyq-arrow">›</span>
+        </button>
+        <button class="pyq-item" onclick="startQuiz('pyq_ssc23t2')">
+          <div>📋</div>
+          <div class="pyq-left"><div class="pyq-name">SSC CGL 2023 — Tier 2</div><div class="pyq-meta">Math + English • 50 Questions</div></div>
+          <span class="pyq-arrow">›</span>
+        </button>
       </div>
+    </div>
   </div>
   <div id="pyq-ntpc" style="display:none;">
     <div class="pyq-year-group">
@@ -449,13 +455,80 @@ header {
   <button class="nav-item" onclick="showTab('weightage','weightage-screen',this)">
     <span class="nav-icon">📊</span>Weightage
   </button>
-  <button class="nav-item" onclick="window.location.href='planner.html'">
-    <span class="nav-icon">📅</span>Planner
-  </button>
-  <button class="nav-item" onclick="window.location.href='mocktest.html'">
-    <span class="nav-icon">📝</span>Mock Test
-  </button>
 </nav>
+
+<!-- ════ QUIZ OVERLAY ════ -->
+<div id="quiz-screen">
+  <div class="quiz-header">
+    <div class="quiz-top">
+      <button class="back-btn" onclick="closeQuiz()">←</button>
+      <span class="quiz-title-txt" id="quiz-ttl">Mathematics</span>
+      <div class="q-pill">✓ <span id="q-score">0</span></div>
+    </div>
+    <div class="prog-bar"><div class="prog-fill" id="prog-fill" style="width:0%"></div></div>
+    <div class="q-counter-txt" id="q-ctr">Question 1 of 10</div>
+  </div>
+  <div class="question-card">
+    <span class="q-tag-chip" id="q-tag">SSC CGL 2023</span>
+    <div class="q-text" id="q-text">Loading...</div>
+    <div class="opts" id="opts-wrap"></div>
+    <div class="exp-box" id="exp-box"></div>
+  </div>
+  <button class="next-btn-q" id="next-q-btn" onclick="nextQ()">Agla Sawal →</button>
+</div>
+
+<!-- ════ BOOSTER OVERLAY ════ -->
+<div id="boost-screen">
+  <div class="boost-header">
+    <button onclick="closeBooster()" style="background:rgba(255,255,255,0.2);border:none;color:white;width:36px;height:36px;border-radius:50%;font-size:18px;cursor:pointer;flex-shrink:0;display:flex;align-items:center;justify-content:center;">←</button>
+    <div>
+      <h2>⚡ Maths Booster</h2>
+      <p>Speed se calculate karo!</p>
+    </div>
+  </div>
+  <div class="topic-pills">
+    <button class="t-pill active" onclick="setBTopic('add',this)">➕ Addition</button>
+    <button class="t-pill" onclick="setBTopic('sub',this)">➖ Subtraction</button>
+    <button class="t-pill" onclick="setBTopic('mul',this)">✖️ Multiply</button>
+    <button class="t-pill" onclick="setBTopic('pct',this)">% Percent</button>
+    <button class="t-pill" onclick="setBTopic('sq',this)">² Squares</button>
+  </div>
+  <div class="b-stats-row">
+    <div class="b-stat"><div class="b-stat-n g" id="b-cor">0</div><div class="b-stat-l">Correct ✓</div></div>
+    <div class="b-stat"><div class="b-stat-n r" id="b-wr">0</div><div class="b-stat-l">Wrong ✗</div></div>
+    <div class="b-stat"><div class="b-stat-n b" id="b-str">0</div><div class="b-stat-l">Streak 🔥</div></div>
+  </div>
+  <div class="calc-box">
+    <div class="calc-q" id="calc-q">Ready? 🚀</div>
+    <div class="timer-txt">⏱️ <span id="t-txt">10s</span></div>
+    <div class="t-bar-bg"><div class="t-bar-fill" id="t-fill" style="width:100%;background:var(--yellow);"></div></div>
+  </div>
+  <div class="calc-opts-grid">
+    <button class="c-opt" id="co0" onclick="checkCalc(0)">-</button>
+    <button class="c-opt" id="co1" onclick="checkCalc(1)">-</button>
+    <button class="c-opt" id="co2" onclick="checkCalc(2)">-</button>
+    <button class="c-opt" id="co3" onclick="checkCalc(3)">-</button>
+  </div>
+</div>
+
+<!-- ════ RESULT OVERLAY ════ -->
+<div id="result-screen">
+  <div class="res-hero">
+    <span class="res-emoji" id="res-emoji">🏆</span>
+    <div class="res-of">Score</div>
+    <div class="res-score" id="res-score">8/10</div>
+    <div class="res-lbl" id="res-lbl">Outstanding!</div>
+  </div>
+  <div class="res-cards">
+    <div class="res-card"><div class="res-n" style="color:var(--green)" id="r-c">0</div><div class="res-l">Correct ✓</div></div>
+    <div class="res-card"><div class="res-n" style="color:var(--red)" id="r-w">0</div><div class="res-l">Wrong ✗</div></div>
+    <div class="res-card"><div class="res-n" style="color:var(--purple)" id="r-a">0%</div><div class="res-l">Accuracy</div></div>
+  </div>
+  <div class="res-actions">
+    <button class="btn-orange" onclick="retryQ()">🔄 Phir Se Try Karo</button>
+    <button class="btn-white" onclick="closeResult()">🏠 Home Par Jao</button>
+  </div>
+</div>
 
 <div class="toast" id="toast"></div>
 
@@ -475,24 +548,104 @@ function toggleTheme() {
   }
 }
 
-// Load saved theme on startup
-window.onload = () => {
-  if(localStorage.getItem('theme') === 'dark') {
-    document.body.classList.add('dark-mode');
-    document.getElementById('theme-btn').textContent = '☀️';
+// ═══════════════════════════════════════════
+//  1. MAIN DATA (QUESTIONS)
+// ═══════════════════════════════════════════
+const Q = {
+  math: [
+    { q:"Ek train 72 km/h ki speed se chal rahi hai. 200 meter ka bridge cross karne mein kitna time lagega agar train ki length 100 meter ho?", opts:["10 sec","15 sec","20 sec","12 sec"], ans:1, exp:"Total distance = 200+100 = 300m. Speed = 72×(5/18) = <strong>20 m/s</strong>. Time = 300/20 = <strong>15 seconds</strong>", tag:"SSC CGL 2023 | Speed & Distance" },
+    { q:"₹1200 ka 5% simple interest 3 saal mein kitna hoga?", opts:["₹160","₹180","₹200","₹240"], ans:1, exp:"SI = (P×R×T)/100 = (1200×5×3)/100 = <strong>₹180</strong>", tag:"SSC CGL | Simple Interest" },
+    { q:"Ek shopkeeper ne ek cheez ₹450 mein kharidi aur 20% profit karke becha. Selling price kya hogi?", opts:["₹520","₹540","₹560","₹580"], ans:1, exp:"SP = CP × (100+20)/100 = 450 × 1.2 = <strong>₹540</strong>", tag:"NTPC 2022 | Profit & Loss" },
+    { q:"2x + 3y = 12 aur x - y = 1 hai. x ki value kya hogi?", opts:["2","3","4","5"], ans:1, exp:"x = y+1 rakh do: 2(y+1)+3y=12 → 5y=10 → y=2. So x = <strong>3</strong>", tag:"SSC CGL | Algebra" }
+  ],
+  gk: [
+    { q:"Supreme Court mein judge ki appointment kaun karta hai?", opts:["Prime Minister","Chief Justice","President of India","Vice President"], ans:2, exp:"Article 124 ke anusaar <strong>President of India</strong> Supreme Court judges ki appointment karte hain.", tag:"SSC CGL | Polity" },
+    { q:"Panipat ki teesri ladai kab hui?", opts:["1526","1556","1761","1857"], ans:2, exp:"<strong>1761</strong> mein Ahmad Shah Durrani ne Marathas ko haraaya.", tag:"NTPC 2022 | History" },
+    { q:"Kaunsa planet 'Red Planet' hai?", opts:["Venus","Jupiter","Mars","Saturn"], ans:2, exp:"<strong>Mars</strong> ko Red Planet kehte hain kyunki isme iron oxide (rust) hai.", tag:"NTPC | Science" },
+    { q:"Bharat ka sabse bada rajya (kshetra mein)?", opts:["Maharashtra","Madhya Pradesh","Rajasthan","Uttar Pradesh"], ans:2, exp:"<strong>Rajasthan</strong> — 342,239 sq km ke saath sabse bada rajya.", tag:"SSC CGL | Geography" }
+  ],
+  english: [
+    { q:"Choose the correct spelling:", opts:["Accomodation","Acommodation","Accommodation","Accommodetion"], ans:2, exp:"<strong>Accommodation</strong> — double 'c' aur double 'm'.", tag:"SSC CGL | Spelling" },
+    { q:"Synonym of 'Benevolent':", opts:["Cruel","Kind","Angry","Lazy"], ans:1, exp:"<strong>Kind</strong> — Benevolent ka matlab hai dayalu (kind).", tag:"NTPC | Vocabulary" },
+    { q:"Antonym of 'Ancient':", opts:["Old","Historic","Modern","Traditional"], ans:2, exp:"<strong>Modern</strong> — Ancient ka ulta.", tag:"SSC CGL | Vocabulary" }
+  ],
+  reasoning: [
+    { q:"Series: 2, 6, 12, 20, 30, ?", opts:["40","42","44","46"], ans:1, exp:"Differences: 4,6,8,10,12. Next = 30+12 = <strong>42</strong>", tag:"SSC CGL | Number Series" },
+    { q:"Analogy: Doctor : Hospital :: Teacher : ?", opts:["Book","Student","School","Classroom"], ans:2, exp:"Doctor ka kaam Doctor jagah → Hospital. Teacher ka kaam ki jagah → <strong>School</strong>", tag:"NTPC | Analogy" },
+    { q:"Agar MONKEY = LNMJDX, toh ORANGE = ?", opts:["NQZMFD","OQZMFD","NQZMFE","NPZMFD"], ans:0, exp:"Har letter ek peeche shift: O→N, R→Q, A→Z, N→M, G→F, E→D → <strong>NQZMFD</strong>", tag:"SSC CGL | Coding-Decoding" }
+  ]
+};
+
+const pyqSets = {
+  pyq_ssc24: [...Q.math, ...Q.gk],
+  pyq_ssc23: [...Q.english, ...Q.reasoning],
+  pyq_ssc23t2: [...Q.math],
+  pyq_ntpc24: [...Q.reasoning, ...Q.gk]
+};
+
+const allQ = { ...Q, ...pyqSets };
+
+function shuffle(arr) {
+  for (let i = arr.length-1; i>0; i--) {
+    const j = Math.floor(Math.random()*(i+1));
+    [arr[i],arr[j]] = [arr[j],arr[i]];
+  }
+  return arr;
+}
+
+// ═══════════════════════════════════════════
+//  2. SYLLABUS & WEIGHTAGE DATA
+// ═══════════════════════════════════════════
+const SYLLABUS = {
+  ssc: {
+    name: "SSC CGL 2024-25", info: "Tier 1: 100 Qs | 60 min | -0.5 negative marking",
+    subjects: [
+      { name:"General Intelligence & Reasoning", color:"#f59e0b", qs:"25 Qs", topics:["Analogy", "Classification", "Series", "Coding-Decoding", "Blood Relations"] },
+      { name:"General Awareness (GK)", color:"#00b877", qs:"25 Qs", topics:["History", "Polity", "Geography", "Economy", "Science"] },
+      { name:"Quantitative Aptitude (Math)", color:"#ff6b00", qs:"25 Qs", topics:["Number System", "Percentage", "Ratio", "Profit-Loss", "Geometry"] },
+      { name:"English Language", color:"#7c3aed", qs:"25 Qs", topics:["Vocabulary", "Idioms", "Reading Comprehension", "Error Spotting"] }
+    ]
+  },
+  ntpc: {
+    name: "RRB NTPC 2024", info: "CBT 1: 100 Qs | 90 min | -1/3 negative marking",
+    subjects: [
+      { name:"Mathematics", color:"#ff6b00", qs:"30 Qs", topics:["Number System", "Decimals", "Time & Work", "Algebra"] },
+      { name:"Reasoning", color:"#f59e0b", qs:"30 Qs", topics:["Analogies", "Coding & Decoding", "Venn Diagram"] },
+      { name:"General Awareness", color:"#00b877", qs:"40 Qs", topics:["Current Events", "Games & Sports", "History"] }
+    ]
+  }
+};
+
+const WEIGHTAGE = {
+  ssc: {
+    insight: "Reasoning & GK mein 60% questions repeat hote hain. Math mein Profit-Loss pe focus karo!",
+    subjects: [
+      { icon:"🧩", name:"Reasoning", color:"#f59e0b", total:25, pct:25, topics:[{n:"Series",q:4},{n:"Analogy",q:3}] },
+      { icon:"🌍", name:"GK", color:"#00b877", total:25, pct:25, topics:[{n:"History",q:6},{n:"Polity",q:5}] },
+      { icon:"🔢", name:"Maths", color:"#ff6b00", total:25, pct:25, topics:[{n:"Profit-Loss",q:3},{n:"Geometry",q:3}] },
+      { icon:"📝", name:"English", color:"#7c3aed", total:25, pct:25, topics:[{n:"Vocabulary",q:5},{n:"Grammar",q:5}] }
+    ]
+  },
+  ntpc: {
+    insight: "NTPC mein GK ka weightage sabse zyada (40%) hai. Current Affairs bahut important hai.",
+    subjects: [
+      { icon:"🌍", name:"General Awareness", color:"#00b877", total:40, pct:40, topics:[{n:"Current Affairs",q:8},{n:"History",q:6}] },
+      { icon:"🔢", name:"Mathematics", color:"#ff6b00", total:30, pct:30, topics:[{n:"Number System",q:5},{n:"Profit-Loss",q:4}] },
+      { icon:"🧩", name:"Reasoning", color:"#f59e0b", total:30, pct:30, topics:[{n:"Series",q:6},{n:"Analogy",q:5}] }
+    ]
   }
 };
 
 // ═══════════════════════════════════════════
-//  NAVIGATION LOGIC
+//  3. NAVIGATION LOGIC
 // ═══════════════════════════════════════════
 function showTab(tab, screenId, el) {
   document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
   document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
   document.getElementById(screenId).classList.add('active');
   el.classList.add('active');
-  if(tab === 'syllabus' && typeof renderSyllabus === 'function') renderSyllabus('ssc');
-  if(tab === 'weightage' && typeof renderWeightage === 'function') renderWeightage('ssc');
+  if(tab === 'syllabus') renderSyllabus('ssc');
+  if(tab === 'weightage') renderWeightage('ssc');
 }
 
 function setPyqExam(exam, el) {
@@ -502,8 +655,218 @@ function setPyqExam(exam, el) {
   document.getElementById('pyq-ntpc').style.display = exam==='ntpc' ? 'block' : 'none';
 }
 
-// Ensure your old Quiz and Syllabus JS is pasted here below 
-// I have left it out to keep the code concise, but your previous JS works perfectly!
+// ═══════════════════════════════════════════
+//  4. QUIZ LOGIC
+// ═══════════════════════════════════════════
+const subNames = { math:'🔢 Mathematics', gk:'🌍 General Knowledge', english:'📝 English', reasoning:'🧩 Reasoning' };
+let curSubject='', curQs=[], curQ=0, curScore=0, answered=false;
+
+function startQuiz(subj) {
+  curSubject = subj;
+  const base = allQ[subj] || [];
+  curQs = shuffle([...base]);
+  curQ = 0; curScore = 0;
+  document.getElementById('quiz-ttl').textContent = subNames[subj] || subj;
+  document.getElementById('quiz-screen').classList.add('show');
+  document.body.style.overflow = 'hidden';
+  renderQ();
+}
+
+function renderQ() {
+  if(curQs.length === 0) return;
+  const d = curQs[curQ];
+  const tot = curQs.length;
+  answered = false;
+  document.getElementById('q-text').textContent = d.q;
+  document.getElementById('q-tag').textContent = d.tag || '';
+  document.getElementById('q-ctr').textContent = `Sawaal ${curQ+1} / ${tot}`;
+  document.getElementById('q-score').textContent = curScore;
+  document.getElementById('prog-fill').style.width = ((curQ/tot)*100)+'%';
+  document.getElementById('exp-box').className = 'exp-box';
+  document.getElementById('next-q-btn').className = 'next-btn-q';
+
+  const wrap = document.getElementById('opts-wrap');
+  wrap.innerHTML = '';
+  const L = ['A','B','C','D'];
+  d.opts.forEach((opt,i) => {
+    const btn = document.createElement('button');
+    btn.className = 'opt-btn';
+    btn.innerHTML = `<span class="opt-letter">${L[i]}</span>${opt}`;
+    btn.onclick = () => selectOpt(i, d.ans, d.exp);
+    wrap.appendChild(btn);
+  });
+}
+
+function selectOpt(sel, correct, exp) {
+  if(answered) return;
+  answered = true;
+  const btns = document.querySelectorAll('.opt-btn');
+  btns.forEach((b,i) => {
+    b.disabled = true;
+    if(i === correct) b.classList.add('correct');
+    else if(i === sel) b.classList.add('wrong');
+  });
+  if(sel === correct) curScore++;
+  document.getElementById('q-score').textContent = curScore;
+  document.getElementById('exp-box').innerHTML = '💡 '+exp;
+  document.getElementById('exp-box').classList.add('show');
+  const isLast = curQ >= curQs.length-1;
+  const nb = document.getElementById('next-q-btn');
+  nb.textContent = isLast ? 'Result Dekho 🏆' : 'Agla Sawaal →';
+  nb.classList.add('show');
+}
+
+function nextQ() {
+  curQ++;
+  if(curQ >= curQs.length) showResult();
+  else renderQ();
+}
+
+function closeQuiz() {
+  document.getElementById('quiz-screen').classList.remove('show');
+  document.body.style.overflow = '';
+}
+
+function showResult() {
+  const tot = curQs.length;
+  const acc = Math.round((curScore/tot)*100);
+  document.getElementById('res-score').textContent = curScore+'/'+tot;
+  document.getElementById('r-c').textContent = curScore;
+  document.getElementById('r-w').textContent = tot-curScore;
+  document.getElementById('r-a').textContent = acc+'%';
+  document.getElementById('quiz-screen').classList.remove('show');
+  document.getElementById('result-screen').classList.add('show');
+}
+
+function retryQ() {
+  document.getElementById('result-screen').classList.remove('show');
+  startQuiz(curSubject);
+}
+
+function closeResult() {
+  document.getElementById('result-screen').classList.remove('show');
+  document.body.style.overflow = '';
+}
+
+// ═══════════════════════════════════════════
+//  5. MATHS BOOSTER LOGIC
+// ═══════════════════════════════════════════
+const bGen = {
+  add: () => { const a=rand(10,99),b=rand(10,99); return {q:`${a} + ${b}`,ans:a+b}; },
+  sub: () => { const a=rand(20,99),b=rand(1,a-1); return {q:`${a} − ${b}`,ans:a-b}; },
+  mul: () => { const a=rand(2,19),b=rand(2,19); return {q:`${a} × ${b}`,ans:a*b}; },
+  pct: () => { const ps=[5,10,20,25,50]; const ns=[20,40,50,100]; const p=ps[rand(0,ps.length-1)],n=ns[rand(0,ns.length-1)]; return {q:`${p}% of ${n}`,ans:(p*n)/100}; },
+  sq: () => { const n=rand(2,20); return {q:`${n}²`,ans:n*n}; }
+};
+
+function rand(a,b){ return Math.floor(Math.random()*(b-a+1))+a; }
+
+let bTopic='add', bCor=0, bWr=0, bStr=0, bAns=0, bTimer=null, bTimeLeft=10;
+
+function showBooster() {
+  document.getElementById('boost-screen').classList.add('show');
+  document.body.style.overflow = 'hidden';
+  newBQ();
+}
+function closeBooster() {
+  clearInterval(bTimer);
+  document.getElementById('boost-screen').classList.remove('show');
+  document.body.style.overflow = '';
+}
+function setBTopic(t, el) {
+  bTopic=t;
+  document.querySelectorAll('.t-pill').forEach(p=>p.classList.remove('active'));
+  el.classList.add('active');
+  bCor=0; bWr=0; bStr=0; updateBStats();
+  newBQ();
+}
+function newBQ() {
+  clearInterval(bTimer);
+  const d = bGen[bTopic]();
+  bAns = d.ans;
+  document.getElementById('calc-q').textContent = d.q + ' = ?';
+  const opts = [bAns];
+  let tries=0;
+  while(opts.length<4 && tries<100) {
+    tries++;
+    const sign = Math.random()>0.5?1:-1;
+    const fake = bAns + sign*rand(1,10);
+    if(fake>0 && fake!==bAns && !opts.includes(fake)) opts.push(Math.round(fake));
+  }
+  opts.sort(()=>Math.random()-0.5);
+  ['co0','co1','co2','co3'].forEach((id,i)=>{
+    const b=document.getElementById(id);
+    b.textContent = opts[i]; b.className='c-opt'; b.disabled=false; b.dataset.val=opts[i];
+  });
+  bTimeLeft=10; updateTimer();
+  bTimer = setInterval(()=>{
+    bTimeLeft-=0.1;
+    if(bTimeLeft<=0){ clearInterval(bTimer); bWr++; bStr=0; updateBStats(); setTimeout(newBQ,700); }
+    updateTimer();
+  },100);
+}
+function updateTimer(){
+  document.getElementById('t-txt').textContent=Math.ceil(bTimeLeft)+'s';
+  const fill=document.getElementById('t-fill');
+  fill.style.width=(bTimeLeft/10*100)+'%';
+  fill.style.background=bTimeLeft>5?'var(--yellow)':'var(--red)';
+}
+function checkCalc(idx){
+  clearInterval(bTimer);
+  const b=document.getElementById('co'+idx);
+  const val=parseFloat(b.dataset.val);
+  document.querySelectorAll('.c-opt').forEach(x=>x.disabled=true);
+  if(val===bAns){ b.classList.add('correct'); bCor++; bStr++; }
+  else { b.classList.add('wrong'); bWr++; bStr=0; document.querySelectorAll('.c-opt').forEach(x=>{ if(parseFloat(x.dataset.val)===bAns) x.classList.add('correct'); }); }
+  updateBStats();
+  setTimeout(newBQ,900);
+}
+function updateBStats(){
+  document.getElementById('b-cor').textContent=bCor;
+  document.getElementById('b-wr').textContent=bWr;
+  document.getElementById('b-str').textContent=bStr;
+}
+
+// ═══════════════════════════════════════════
+//  6. SYLLABUS & WEIGHTAGE RENDERER
+// ═══════════════════════════════════════════
+function renderSyllabus(exam) {
+  const d = SYLLABUS[exam];
+  let html = `<div class="syl-exam-name"><h3>📋 ${d.name}</h3><p>${d.info}</p></div>`;
+  d.subjects.forEach((s,i)=>{
+    html += `<div class="syl-subject">
+      <div class="syl-subj-head" onclick="toggleSyl(${i})"><span class="s-dot" style="background:${s.color}"></span><span class="syl-subj-name">${s.name}</span><span class="syl-weight">${s.qs}</span><span class="syl-chevron" id="syl-chev-${i}">›</span></div>
+      <div class="syl-topics" id="syl-topics-${i}">${s.topics.map(t=>`<div class="syl-topic-item">${t}</div>`).join('')}</div>
+    </div>`;
+  });
+  document.getElementById('syl-content').innerHTML = html;
+}
+function toggleSyl(i){
+  document.getElementById('syl-topics-'+i).classList.toggle('open');
+  document.getElementById('syl-chev-'+i).classList.toggle('open');
+}
+
+function renderWeightage(exam) {
+  const d = WEIGHTAGE[exam];
+  let html = `<div class="wt-insight"><h4>💡 Strategy Tip</h4><p>${d.insight}</p></div>`;
+  d.subjects.forEach(s=>{
+    const chips = s.topics.map(t=>`<div class="wt-topic-chip">${t.n} <span class="chip-qs">${t.q}Q</span></div>`).join('');
+    html += `<div class="wt-card"><div class="wt-subj-row"><span class="wt-subj-icon">${s.icon}</span><span class="wt-subj-name">${s.name}</span><span class="wt-qs">${s.total} Qs</span></div>
+      <div class="wt-bar-bg"><div class="wt-bar-fill" style="width:${s.pct}%;background:${s.color};"></div></div><div class="wt-topics-grid">${chips}</div></div>`;
+  });
+  document.getElementById('wt-content').innerHTML = html;
+}
+
+// ═══════════════════════════════════════════
+//  7. INIT
+// ═══════════════════════════════════════════
+window.onload = () => {
+  if(localStorage.getItem('theme') === 'dark') {
+    document.body.classList.add('dark-mode');
+    document.getElementById('theme-btn').textContent = '☀️';
+  }
+  document.getElementById('home-streak').textContent = localStorage.getItem('streak')||'0';
+};
 </script>
 </body>
 </html>
