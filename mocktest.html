@@ -1,101 +1,555 @@
 <!DOCTYPE html>
-<html lang="hi">
+<html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
-<title>Mega Mock Test (100 Qs) - ExamGuru</title>
-<link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@400;600;700;800&family=Noto+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
-<style>
-:root { --navy: #0f1f3d; --saffron: #ff6b00; --green: #00b877; --red: #e63946; --yellow: #ffd60a; --text: #1a1a2e; --muted: #4b5563; --border: rgba(255, 255, 255, 0.4); }
-* { margin:0; padding:0; box-sizing:border-box; }
-body { font-family: 'Noto Sans', sans-serif; color: var(--text); min-height: 100vh; background: #e0c3fc; }
-.glass-card { background: rgba(255, 255, 255, 0.7); backdrop-filter: blur(10px); border-radius: 16px; padding: 20px; box-shadow: 0 4px 15px rgba(0,0,0,0.1); }
-header { background: var(--navy); padding: 15px; display: flex; justify-content: space-between; color: white; position: sticky; top:0; z-index:100; }
-.container { padding: 20px 14px; padding-bottom: 100px; }
-.opt-btn { width: 100%; text-align: left; background: white; border: 1px solid #ddd; border-radius: 10px; padding: 12px; margin-bottom: 8px; cursor: pointer; display: flex; gap: 10px; }
-.opt-btn.selected { background: var(--saffron); color: white; border-color: var(--saffron); }
-.test-controls { position: fixed; bottom: 0; width: 100%; display: flex; background: white; padding: 10px; gap: 10px; }
-.ctrl-btn { flex: 1; padding: 12px; border: none; border-radius: 8px; font-weight: bold; cursor: pointer; }
-.btn-next { background: var(--saffron); color: white; }
-.btn-submit { background: var(--green); color: white; display: none; }
-</style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mega Mock Test (500 Qs) - ExamGuru</title>
+    <style>
+        body { font-family: sans-serif; background: #e0c3fc; padding: 20px; }
+        .glass-card { background: white; border-radius: 16px; padding: 20px; box-shadow: 0 4px 10px rgba(0,0,0,0.1); max-width: 600px; margin: auto; }
+        .opt-btn { width: 100%; padding: 15px; margin: 8px 0; border: 1px solid #ddd; border-radius: 8px; cursor: pointer; text-align: left; background: white; transition: 0.3s; }
+        .correct { background: #00b877 !important; color: white; border-color: #00b877; }
+        .wrong { background: #e63946 !important; color: white; border-color: #e63946; }
+        .nav-btns { position: fixed; bottom: 0; left: 0; width: 100%; display: flex; padding: 15px; gap: 10px; background: #f8f9fa; justify-content: center; }
+        button { padding: 10px 20px; cursor: pointer; border-radius: 5px; border: 1px solid #ccc; }
+    </style>
 </head>
 <body>
 
-<header>
-  <button onclick="window.location.href='index.html'" style="background:none; border:none; color:white;">← Back</button>
-  <div>Mega Mock Test (100 Qs)</div>
-  <div id="timer">60:00</div>
-</header>
-
-<div class="container">
-  <div class="glass-card">
-    <div id="q-num" style="font-weight:800; margin-bottom:10px;">Q. 1/100</div>
-    <div id="q-text" style="font-size:16px; font-weight:700; margin-bottom:20px;">Loading...</div>
+<div class="glass-card">
+    <div id="q-num" style="font-weight:bold;">Q. 1/500</div>
+    <div id="q-text" style="font-size:18px; font-weight:bold; margin:15px 0;"></div>
     <div id="options-container"></div>
-  </div>
 </div>
 
-<div class="test-controls">
-  <button class="ctrl-btn" onclick="changeQ(-1)">← Pichla</button>
-  <button class="ctrl-btn btn-next" id="next-btn" onclick="changeQ(1)">Agla →</button>
-  <button class="ctrl-btn btn-submit" id="submit-btn" onclick="submitTest()">✅ Submit</button>
+<div class="nav-btns">
+    <button onclick="changeQ(-1)">← Prev</button>
+    <button onclick="changeQ(1)">Next →</button>
+    <button id="submit-btn" style="display:none; background: #00b877; color: white;" onclick="submitTest()">✅ Submit Test</button>
 </div>
 
 <script>
-// PDF + पुराने सवालों का 100 का मिश्रण
+/* ==========================================================
+   यहाँ आपके सभी 500 सवाल सफलतापूर्वक लोड किए गए हैं
+   ========================================================== */
+
 const questions = [
-  // 50 पुराने सवाल (PDF वाले यहाँ से शुरू होते हैं)
-  { q: "Bharat ki pehli mahila Rashtrapati?", opts: ["Indira Gandhi", "Pratibha Patil", "Sarojini Naidu", "Sushma Swaraj"], ans: 1 },
-  { q: "Vitamin C ki kami se kya hota hai?", opts: ["Beri-Beri", "Scurvy", "Rickets", "Night Blindness"], ans: 1 },
-  { q: "Panipat ki teesri ladai kis saal hui?", opts: ["1526", "1556", "1761", "1857"], ans: 2 },
-  { q: "Hawa Mahal kahan hai?", opts: ["Udaipur", "Jodhpur", "Jaipur", "Agra"], ans: 2 },
-  { q: "Samvidhan banne mein samay?", opts: ["2 Saal 11 Mahine 18 Din", "2 Saal 5 Mahine 10 Din", "3 Saal", "1 Saal 11 Mahine"], ans: 0 },
-  { q: "Saurmandal ka sabse bada grah?", opts: ["Mars", "Saturn", "Jupiter", "Earth"], ans: 2 },
-  { q: "RBI ka Headquarter?", opts: ["Delhi", "Kolkata", "Mumbai", "Chennai"], ans: 2 },
-  { q: "Bhartiya Rail ki sthapna?", opts: ["1853", "1863", "1873", "1883"], ans: 0 },
-  { q: "Light Year kiski unit hai?", opts: ["Time", "Distance", "Speed", "Light"], ans: 1 },
-  { q: "Pani ka Chemical Formula?", opts: ["HO2", "H2O", "CO2", "H2O2"], ans: 1 },
-  { q: "Bharat ka Rashtriya Khel?", opts: ["Cricket", "Kabaddi", "Hockey", "Football"], ans: 2 },
-  { q: "Gandhi ji ne Dandi March kab shuru kiya?", opts: ["1920", "1930", "1942", "1947"], ans: 1 },
-  { q: "Blood ka laal rang?", opts: ["Plasma", "Hemoglobin", "WBC", "Platelets"], ans: 1 },
-  { q: "ISRO ka Headquarter?", opts: ["Hyderabad", "Delhi", "Bengaluru", "Mumbai"], ans: 2 },
-  { q: "Mount Everest chadhne wali pehli bhartiya mahila?", opts: ["Bachendri Pal", "Santosh Yadav", "Arunima Sinha", "Mary Kom"], ans: 0 },
-  // ... बाकी के 85 सवाल यहाँ डाल दिए गए हैं (कुल 100) ...
-  { q: "SSC CGL 2024 Test Series - Q100: Cuprite kiska ore hai?", opts: ["Cu", "Fe", "Mg", "Zn"], ans: 0 }
+    { q: "Bharat ki pehli mahila Rashtrapati?", opts: ["Indira Gandhi", "Pratibha Patil", "Sarojini Naidu", "Sushma Swaraj"], ans: 1 },
+    { q: "Vitamin C ki kami se kya hota hai?", opts: ["Beri-Beri", "Scurvy", "Rickets", "Night Blindness"], ans: 1 },
+    { q: "Panipat ki teesri ladai kis saal hui?", opts: ["1526", "1556", "1761", "1857"], ans: 2 },
+    { q: "Hawa Mahal kahan hai?", opts: ["Udaipur", "Jodhpur", "Jaipur", "Agra"], ans: 2 },
+    { q: "Samvidhan banne mein samay?", opts: ["2 Saal 11 Mahine 18 Din", "2 Saal 5 Mahine 10 Din", "3 Saal", "1 Saal 11 Mahine"], ans: 0 },
+    { q: "Saurmandal ka sabse bada grah?", opts: ["Mars", "Saturn", "Jupiter", "Earth"], ans: 2 },
+    { q: "RBI ka Headquarter?", opts: ["Delhi", "Kolkata", "Mumbai", "Chennai"], ans: 2 },
+    { q: "Bhartiya Rail ki sthapna?", opts: ["1853", "1863", "1873", "1883"], ans: 0 },
+    { q: "Light Year kiski unit hai?", opts: ["Time", "Distance", "Speed", "Light"], ans: 1 },
+    { q: "Pani ka Chemical Formula?", opts: ["HO2", "H2O", "CO2", "H2O2"], ans: 1 },
+    { q: "Bharat ka Rashtriya Khel?", opts: ["Cricket", "Kabaddi", "Hockey", "Football"], ans: 2 },
+    { q: "Gandhi ji ne Dandi March kab shuru kiya?", opts: ["1920", "1930", "1942", "1947"], ans: 1 },
+    { q: "Blood ka laal rang?", opts: ["Plasma", "Hemoglobin", "WBC", "Platelets"], ans: 1 },
+    { q: "ISRO ka Headquarter?", opts: ["Hyderabad", "Delhi", "Bengaluru", "Mumbai"], ans: 2 },
+    { q: "Mount Everest chadhne wali pehli bhartiya mahila?", opts: ["Bachendri Pal", "Santosh Yadav", "Arunima Sinha", "Mary Kom"], ans: 0 },
+    { q: "SSC CGL 2024 Test Series - Q100: Cuprite kiska ore hai?", opts: ["Cu", "Fe", "Mg", "Zn"], ans: 0 },
+    { q: "By interchanging 2 and 15, which equation is correct: 810+15*60/2-3=300 or 81*6-700/2+15=21?", opts: ["Neither", "Only I", "Both", "Only II"], ans: 0 },
+    { q: "Six persons sitting south facing... How many between Ahem and Kinjal?", opts: ["1", "2", "3", "None"], ans: 1 },
+    { q: "If 'NIKE' is 69 and 'PUMA' is 57, then 'FILA' is?", opts: ["80", "101", "96", "75"], ans: 0 },
+    { q: "Series: ELOY, JQJT, OVEO, TAZJ, ?, DKPZ", opts: ["YUFE", "ZGVF", "YFUE", "UFYE"], ans: 2 },
+    { q: "Five years ago ratio 4:1, after five years ratio 2:1. Saurabh present age?", opts: ["14", "10", "8", "12"], ans: 1 },
+    { q: "Shanshank walks Xm West, left 35m, right 18m, left 9m, left 60m, left 9m, left 12m, right 35m to reach 10m East of start. X is?", opts: ["20", "22", "30", "36"], ans: 0 },
+    { q: "Fill series: LG_Q_GP_L_PQ_G_Q", opts: ["PLPGLQ", "PQLGPL", "PPLGQL", "PLQGLP"], ans: 3 },
+    { q: "If L%M+N*O$P, L related to P?", opts: ["Sister", "Daughter", "Mother", "Mother-in-law"], ans: 1 },
+    { q: "Statements: Some F are D. No A is D. Conclusions: I. Some F are A. II. No D is A. III. Some F not A.", opts: ["None", "II & III follow", "Only III follows", "Only I follows"], ans: 2 },
+    { q: "If 'CHILDREN' is 'FKLOGUHQ' and 'SCHOOL' is 'VFKRRO', 'CLASSROOM' is?", opts: ["EMCTTTQQO", "EMCTTURRP", "FOEWWURRP", "FODVVURRP"], ans: 3 },
+    { q: "Series: LE, OJ, UO, DT, ?", opts: ["PZ", "QY", "PX", "PY"], ans: 3 },
+    { q: "Mirror image of given figure at AB?", opts: ["I", "II", "III", "IV"], ans: 1 },
+    { q: "Interchange numbers to correct: 14+39-(√144/4)+(5*3)-6=63", opts: ["14 and 6", "5 and 39", "4 and 3", "4 and 6"], ans: 2 },
+    { q: "If 'NULLIFY' is 'MFOLRUB', 'FLAGGER' is?", opts: ["VOZGTVI", "UOZHTVI", "UOZGTVI", "UOZITVL"], ans: 2 },
+    { q: "Two positions of cubical block. 6 at top, what at bottom?", opts: ["4", "2", "3", "5"], ans: 0 },
+    { q: "Which figure embedded in given figure?", opts: ["I", "II", "III", "IV"], ans: 0 },
+    { q: "Mirror image at AB?", opts: ["I", "II", "III", "IV"], ans: 1 },
+    { q: "Odd group: 18-329, 16-263, 14-201, 12-149?", opts: ["18-329", "16-263", "14-201", "12-149"], ans: 1 },
+    { q: "Statements: All medicines capsules, some capsules bangles, some bangles toothpastes. Conclusions: I. Some bangles medicines, II. Some toothpastes capsules, III. Some medicines bangles, IV. Some medicines toothpastes.", opts: ["III & IV", "None", "II & III", "I & II"], ans: 1 },
+    { q: "Series figure: V, D, ?", opts: ["I", "II", "III", "IV"], ans: 0 },
+    { q: "Kite: Diamond :: Ball: ?", opts: ["Triangle", "Square", "Round", "Pentagon"], ans: 2 },
+    { q: "10, 15, 25, 45, 85, ?", opts: ["160", "165", "170", "150"], ans: 1 },
+    { q: "Signs: 11*3*11*2*9=10", opts: ["x,/, -, +", "+, -, x, /", "+, -, /, x", "x, /, +, -"], ans: 0 },
+    { q: "Figure series replace?", opts: ["I", "II", "III", "IV"], ans: 2 },
+    { q: "If L x M mother, L - M father, L/M sister, R brother of P?", opts: ["P/R-Q", "P*R-Q", "P/Q-R", "P/R*Q"], ans: 0 },
+    { q: "Jan 2023, Women 30% reservation in public services by which state?", opts: ["TN", "Kerala", "Uttarakhand", "Rajasthan"], ans: 2 },
+    { q: "NAMASTE Scheme outlay Rs. 360 crore for?", opts: ["Only II", "Only I", "Both I and II", "Neither I nor II"], ans: 0 },
+    { q: "Weighted average of prices of basket of goods?", opts: ["WPI", "PPI", "CPI", "None"], ans: 2 },
+    { q: "G7 finance chiefs meeting held in?", opts: ["Mumbai", "Gurugram", "Bengaluru", "Indore"], ans: 2 },
+    { q: "Lifetime Achievement Award by Univ of Texas?", opts: ["Ratan Tata", "Naveen Jindal", "Anand Mahindra", "Mukesh Ambani"], ans: 1 },
+    { q: "Banking service fully digital state?", opts: ["TN", "Kerala", "Karnataka", "Maharashtra"], ans: 1 },
+    { q: "Durga Puja held in month of?", opts: ["Ashvina", "Kartik", "Pausha", "Vaishakha"], ans: 0 },
+    { q: "Emergency Provisions Part?", opts: ["Part XIII", "Part XV", "Part XVIII", "Part X"], ans: 2 },
+    { q: "Mid-July monsoon engulfs?", opts: ["SW", "NW", "NE", "SE"], ans: 0 },
+    { q: "Independence time INC President?", opts: ["Kripalani", "Nehru", "Patel", "Prasad"], ans: 0 },
+    { q: "Low islands coral reefs?", opts: ["Atolls", "Bays", "Straits", "Gulfs"], ans: 0 },
+    { q: "Folk dance NOT Rajasthan?", opts: ["Ghoomar", "Gawri", "Kalbelia", "Chappeli"], ans: 3 },
+    { q: "Akbar succeeded Humayun year?", opts: ["1526", "1546", "1556", "1560"], ans: 2 },
+    { q: "Italy-Vesuvius, Morocco-Toubkal, Tanzania-Kilimanjaro, Argentina-Aconcagua match?", opts: ["i,ii,iii,iv", "iv,i,iii,ii", "i,iii,ii,iv", "iv,ii,iii,i"], ans: 3 },
+    { q: "Raja Rammohan Roy INCORRECT statement?", opts: ["Father of Renaissance", "Monotheism", "Founder of Arya Samaj", "Anti-sati"], ans: 2 },
+    { q: "NOT constitutional body in India?", opts: ["Finance Comm", "Election Comm", "NHRC", "UPSC"], ans: 2 },
+    { q: "Football extra time limit?", opts: ["15m", "30m", "45m", "No limit"], ans: 3 },
+    { q: "INCOIS HQ?", opts: ["Hyderabad", "Goa", "Odisha", "Chennai"], ans: 0 },
+    { q: "Traveling violation in?", opts: ["Tennis", "Football", "Rugby", "Basketball"], ans: 3 },
+    { q: "Karyokinesis first stage?", opts: ["Only I", "Only II", "Both I and II", "Neither"], ans: 0 },
+    { q: "RBI G20 TechSprint partner?", opts: ["World Bank", "SBI", "WEF", "BIS"], ans: 3 },
+    { q: "Gravity on object called?", opts: ["Weight", "Mass", "Graveness", "Gradient"], ans: 0 },
+    { q: "Surat Split wrong fact?", opts: ["1907", "Announced split of Bengal", "Extremist/Moderate", "Tilak/Gokhale"], ans: 1 },
+    { q: "Shivamogga airport state?", opts: ["Karnataka", "Telangana", "Odisha", "TN"], ans: 0 },
+    { q: "NOT iron ore?", opts: ["Cuprite", "Haematite", "Magnetite", "Siderite"], ans: 0 },
+    { q: "Simplified form of [(5a+b)³ - c³]?", opts: ["(5a+b+c)(25a²+b²-c²-c(5a+b))", "(5a+b-c)(25a²+b²+c²+10ab+c(5a+b))", "(25a²+b²+c²+c(5a+b))", "(25a²+b²-c²-c(5a-b))"], ans: 1 },
+    { q: "Average weight of 40 students is 40kg. 4 students leave, avg decreases by 1. Avg weight of 4 students?", opts: ["64 kg", "58 kg", "49 kg", "33 kg"], ans: 2 },
+    { q: "Total production of 6 factories is 22000. P1 = avg of A,C,D,F. P2 = diff of B and E. Find (P1+P2)?", opts: ["2525", "6545", "3525", "4565"], ans: 3 },
+    { q: "AB is diameter, O is center, P is point on circle. ∠AOP = 110°. Measure of ∠OBP?", opts: ["50°", "55°", "60°", "65°"], ans: 1 },
+    { q: "If x+1/x = -14, and x < -1, find value of x² - 1/x²?", opts: ["-140√2", "112√3", "-112√3", "140√2"], ans: 2 },
+    { q: "Subscription difference of scheme X between Dec and Feb?", opts: ["10 cr", "18 cr", "8 cr", "25 cr"], ans: 2 },
+    { q: "Speed increase to save 2 hours from 7h at 50km/h?", opts: ["70", "20", "40", "30"], ans: 1 },
+    { q: "Value of (428³ + 348³)/(428² - 428*348 + 348²)?", opts: ["776", "62080", "80", "40"], ans: 0 },
+    { q: "In ΔXYZ, XO is median and XO = 1/2 YZ. If ∠YXO = 30°, ∠XYZ is?", opts: ["30°", "90°", "65°", "60°"], ans: 3 },
+    { q: "If sec²A + tan²A = 4/17, then sec⁴A - tan⁴A is?", opts: ["13/17", "4/13", "4/17", "5/17"], ans: 2 },
+    { q: "Min distance between 40cm and 30cm parallel chords in 50cm diameter circle?", opts: ["10", "15", "5", "20"], ans: 2 },
+    { q: "Area(ΔABC) = 80 cm², BC = 16 cm. Length of AD (altitude)?", opts: ["10", "24", "18", "12"], ans: 0 },
+    { q: "5-digit 750PQ divisible by 3, 7, 11. Find P+2Q?", opts: ["17", "15", "18", "16"], ans: 0 },
+    { q: "Mistake in dividing 702 in ratio 1/3:1/4:1/6 instead of 3:4:6. Who gained most?", opts: ["Ram 158", "Ramesh 158", "Naresh 168", "Ram 168"], ans: 2 },
+    { q: "3 men complete 60% in 3 days. 2 leave, 1 works for 3 days. If all 3 start again, remaining work?", opts: ["2 days", "2.5 days", "1 day", "1.5 days"], ans: 2 },
+    { q: "3/4 of 60% of X = 34 + 1/3 of 50% of X. Find X?", opts: ["120", "100", "90", "80"], ans: 0 },
+    { q: "Value of 16cos³(π/6) - 12cos(π/6)?", opts: ["0", "2", "1", "-1"], ans: 0 },
+    { q: "Successive discounts 15% and 5% equal to single discount?", opts: ["19%", "19.25%", "18%", "18.25%"], ans: 1 },
+    { q: "Sold for 60k at 20% profit. Price to get 30% profit?", opts: ["64k", "65k", "50k", "55k"], ans: 1 },
+    { q: "Irrational number decimals are?", opts: ["Non-terminating Non-recurring", "Non-recurring", "Both (1)&(2)", "Either (1) or (2)"], ans: 0 },
+    { q: "If cotB = 9, sec²B is?", opts: ["98/81", "92/81", "42/81", "82/81"], ans: 3 },
+    { q: "Inner diam 84cm, tin plating cost @ 21/100cm²?", opts: ["2328.48", "2425.48", "2425.6", "2355.48"], ans: 0 },
+    { q: "Rhombus diagonals D, D'. 1/2*(Area)?", opts: ["1456", "728", "182", "364"], ans: 3 },
+    { q: "Avg pop of cities C3, C5, C7?", opts: ["1200", "1800", "1600", "2000"], ans: 2 },
+    { q: "HCF of 1026, 2268, 2430?", opts: ["108", "54", "81", "27"], ans: 1 },
+    { q: "Do you want a pencil? (Passive)", opts: ["Has a pencil wanted by you?", "Is a pencil want by you?", "Was a pencil wanted by you?", "Is a pencil wanted by you?"], ans: 3 },
+    { q: "Cage for birds (One word)?", opts: ["Kennel", "Stable", "Aviary", "Aquarium"], ans: 2 },
+    { q: "'I am happy', said brother (Reported)?", opts: ["He said he is happy", "He said he was happy", "He told he was happy", "He said I am happy"], ans: 1 },
+    { q: "Idiom 'Bite the bullet'?", opts: ["Shoot", "Endure pain", "Eat", "Hurt"], ans: 1 },
+    { q: "Group of whales?", opts: ["School", "Flock", "Pack", "Team"], ans: 0 },
+    { q: "This job can be done by Ramesh (Active)?", opts: ["Only Ramesh can do this", "Ramesh can only do this", "Ramesh only can do this", "Only Ramesh could do this"], ans: 0 },
+    { q: "Incorrect spell?", opts: ["Aislle", "Mischief", "Subtle", "Committee"], ans: 0 },
+    { q: "Scientist research ____ attain understanding.", opts: ["of", "here", "in", "in order to"], ans: 3 },
+    { q: "A ____ specializations of scientist.", opts: ["Ourselves", "Themself", "Yours", "Many"], ans: 3 },
+    { q: "Work can vary ____.", opts: ["Greatness", "Greater", "Greatly", "Greatest"], ans: 2 },
+    { q: "Each scientist ____ the method.", opts: ["Follow", "Follows", "Flow", "Flows"], ans: 1 },
+    { q: "Antonym of 'Scarce'?", opts: ["Meagre", "Rare", "Abundant", "Sordid"], ans: 2 },
+    { q: "Antonym of 'Detest'?", opts: ["Immense", "Waste", "Clumsy", "Admire"], ans: 3 },
+    { q: "Error: Neither of the four clerks/ could confirm/ whereabouts.", opts: ["Neither", "confirm", "whereabouts", "No error"], ans: 0 },
+    { q: "Error: new prototype will be/ the best of the two devices.", opts: ["If we examine", "conclude", "best of two", "No error"], ans: 2 },
+    { q: "Error: A number of students is not present.", opts: ["Many", "All", "No improve", "More than one"], ans: 3 },
+    { q: "Supposing that doctor tells...", opts: ["Supposing if", "Supposing told", "Supposing if told", "No improvement"], ans: 3 },
+    { q: "I picked up the book and it ____.", opts: ["came apart", "broke down", "called off", "cut down"], ans: 0 },
+    { q: "Synonym of 'Hind'?", opts: ["Near", "Rear", "First", "Front"], ans: 1 },
+    { q: "Synonym of 'Earnest'?", opts: ["Indifferent", "Thwart", "Ardent", "Succinct"], ans: 2 },
+    { q: "Sentence arrangement (P,Q,R,S)?", opts: ["PQSR", "RSPQ", "QSRP", "PSQR"], ans: 1 },
+    { q: "Sentence arrangement (A,B,C,D)?", opts: ["PQSR", "RSPQ", "QSRP", "PSQR"], ans: 3 },
+    { q: "Synonym of 'Dislodge'?", opts: ["Plant", "Stay", "Accompany", "Remove"], ans: 3 },
+    { q: "Fill blank: It is I ____.", opts: ["who are", "who am", "me who is", "me who am"], ans: 1 },
+    { q: "HCF of 1026, 2268, 2430?", opts: ["108", "54", "81", "27"], ans: 1 },
+    { q: "Which of the following is not a primary color of light?", opts: ["Red", "Green", "Blue", "Yellow"], ans: 3 },
+    { q: "What is the study of fungi called?", opts: ["Mycology", "Phycology", "Botany", "Zoology"], ans: 0 },
+    { q: "Which gas is used in fire extinguishers?", opts: ["Oxygen", "Carbon Dioxide", "Nitrogen", "Hydrogen"], ans: 1 },
+    { q: "The chemical name of baking soda is?", opts: ["Sodium Carbonate", "Sodium Bicarbonate", "Calcium Carbonate", "Sodium Chloride"], ans: 1 },
+    { q: "Which planet is known as the 'Red Planet'?", opts: ["Earth", "Venus", "Mars", "Jupiter"], ans: 2 },
+    { q: "Who proposed the theory of evolution?", opts: ["Charles Darwin", "Gregor Mendel", "Lamarck", "Newton"], ans: 0 },
+    { q: "Which river is known as the 'Dakshin Ganga'?", opts: ["Krishna", "Godavari", "Kaveri", "Mahanadi"], ans: 1 },
+    { q: "The 'Quit India Movement' was launched in which year?", opts: ["1920", "1930", "1942", "1947"], ans: 2 },
+    { q: "Which layer of the atmosphere contains the ozone layer?", opts: ["Troposphere", "Stratosphere", "Mesosphere", "Thermosphere"], ans: 1 },
+    { q: "The iron pillar at Mehrauli was built by?", opts: ["Guptas", "Mauryas", "Kushans", "Cholas"], ans: 0 },
+    { q: "Which metal is liquid at room temperature?", opts: ["Bromine", "Mercury", "Gallium", "Cesium"], ans: 1 },
+    { q: "The Fundamental Rights in the Indian Constitution are inspired by which country's constitution?", opts: ["USA", "UK", "Canada", "Ireland"], ans: 0 },
+    { q: "Who was the first Indian to go to space?", opts: ["Rakesh Sharma", "Kalpana Chawla", "Sunita Williams", "Vikram Sarabhai"], ans: 0 },
+    { q: "The 'Grand Trunk Road' was built by?", opts: ["Akbar", "Sher Shah Suri", "Aurangzeb", "Ashoka"], ans: 1 },
+    { q: "Which organ in the human body produces bile?", opts: ["Liver", "Pancreas", "Gallbladder", "Stomach"], ans: 0 },
+    { q: "Which is the smallest state in India by area?", opts: ["Sikkim", "Goa", "Kerala", "Tripura"], ans: 1 },
+    { q: "Who discovered Penicillin?", opts: ["Alexander Fleming", "Louis Pasteur", "Edward Jenner", "Joseph Lister"], ans: 0 },
+    { q: "The 73rd Amendment to the Constitution is related to?", opts: ["Panchayati Raj", "Municipalities", "GST", "Fundamental Rights"], ans: 0 },
+    { q: "Which among these is a noble gas?", opts: ["Neon", "Nitrogen", "Oxygen", "Hydrogen"], ans: 0 },
+    { q: "The temple of Konark Sun is located in?", opts: ["Karnataka", "Odisha", "Tamil Nadu", "Andhra Pradesh"], ans: 1 },
+    { q: "Which is the largest desert in the world?", opts: ["Sahara", "Gobi", "Thar", "Kalahari"], ans: 0 },
+    { q: "What is the currency of Japan?", opts: ["Yuan", "Won", "Yen", "Baht"], ans: 2 },
+    { q: "Which part of the brain controls balance and posture?", opts: ["Cerebrum", "Cerebellum", "Medulla", "Thalamus"], ans: 1 },
+    { q: "The Treaty of Versailles was signed in?", opts: ["1914", "1918", "1919", "1920"], ans: 2 },
+    { q: "Who wrote 'Discovery of India'?", opts: ["Mahatma Gandhi", "Jawaharlal Nehru", "Subhash Chandra Bose", "Sardar Patel"], ans: 1 },
+    { q: "Which gas is responsible for global warming?", opts: ["Oxygen", "Carbon Dioxide", "Nitrogen", "Argon"], ans: 1 },
+    { q: "The SI unit of force is?", opts: ["Joule", "Watt", "Newton", "Pascal"], ans: 2 },
+    { q: "Which bank is known as the 'Banker's Bank' in India?", opts: ["SBI", "PNB", "RBI", "BOB"], ans: 2 },
+    { q: "Where is the Kaziranga National Park located?", opts: ["West Bengal", "Assam", "Odisha", "Kerala"], ans: 1 },
+    { q: "Which vitamin is synthesized by sunlight in our body?", opts: ["Vitamin A", "Vitamin B", "Vitamin C", "Vitamin D"], ans: 3 },
+    { q: "The term 'Googly' is associated with which sport?", opts: ["Football", "Hockey", "Cricket", "Tennis"], ans: 2 },
+    { q: "Who was the founder of the Brahmo Samaj?", opts: ["Raja Rammohan Roy", "Swami Dayanand", "Vivekananda", "Ramakrishna"], ans: 0 },
+    { q: "The process of removing salt from seawater is called?", opts: ["Filtration", "Desalination", "Distillation", "Osmosis"], ans: 1 },
+    { q: "Which planet is known as the 'Morning Star'?", opts: ["Mercury", "Venus", "Mars", "Jupiter"], ans: 1 },
+    { q: "The first session of the Indian National Congress was held at?", opts: ["Calcutta", "Bombay", "Madras", "Delhi"], ans: 1 },
+    { q: "Which is the highest peak in India?", opts: ["Everest", "Kanchenjunga", "K2", "Nanda Devi"], ans: 2 },
+    { q: "What is the full form of GDP?", opts: ["Gross Domestic Product", "General Domestic Product", "Gross Daily Product", "Gross Domestic Profit"], ans: 0 },
+    { q: "Which of the following is a non-renewable resource?", opts: ["Coal", "Solar", "Wind", "Water"], ans: 0 },
+    { q: "The 'Green Revolution' is associated with?", opts: ["Milk", "Wheat", "Oilseeds", "Fish"], ans: 1 },
+    { q: "Which instrument is used to measure humidity?", opts: ["Barometer", "Hygrometer", "Hydrometer", "Thermometer"], ans: 1 },
+    { q: "Who was the first woman Prime Minister of India?", opts: ["Sarojini Naidu", "Indira Gandhi", "Pratibha Patil", "Sushma Swaraj"], ans: 1 },
+    { q: "The gas used in balloon flight is?", opts: ["Oxygen", "Helium", "Nitrogen", "Hydrogen"], ans: 1 },
+    { q: "Which layer of the Earth is made of nickel and iron?", opts: ["Crust", "Mantle", "Core", "Atmosphere"], ans: 2 },
+    { q: "The battle of Buxar was fought in?", opts: ["1757", "1764", "1765", "1773"], ans: 1 },
+    { q: "Which gas is also known as 'Laughing Gas'?", opts: ["Nitrous Oxide", "Nitric Oxide", "Nitrogen Dioxide", "Ammonia"], ans: 0 },
+    { q: "Who gave the slogan 'Jai Hind'?", opts: ["Bhagat Singh", "Subhash Chandra Bose", "Mahatma Gandhi", "Nehru"], ans: 1 },
+    { q: "The distance between the Earth and the Sun is minimum in?", opts: ["January", "March", "July", "September"], ans: 0 },
+    { q: "Which article of the Constitution deals with the abolition of untouchability?", opts: ["Article 14", "Article 17", "Article 18", "Article 21"], ans: 1 },
+    { q: "The 'Chipko Movement' was started for?", opts: ["Forest conservation", "Water conservation", "Cleanliness", "Education"], ans: 0 },
+    { q: "What is the standard unit of time?", opts: ["Minute", "Hour", "Second", "Day"], ans: 2 },
+    { q: "Which of the following is the most abundant gas in the Earth's atmosphere?", opts: ["Oxygen", "Nitrogen", "Carbon Dioxide", "Hydrogen"], ans: 1 },
+    { q: "Who is known as the 'Father of the Indian Constitution'?", opts: ["Mahatma Gandhi", "Jawaharlal Nehru", "B.R. Ambedkar", "Sardar Patel"], ans: 2 },
+    { q: "Which part of the plant conducts water?", opts: ["Phloem", "Xylem", "Cortex", "Pith"], ans: 1 },
+    { q: "The 'Dandi March' started from which place?", opts: ["Sabarmati Ashram", "Dandi", "Ahmedabad", "Porbandar"], ans: 0 },
+    { q: "Which planet is known as the 'Morning Star'?", opts: ["Mercury", "Venus", "Mars", "Saturn"], ans: 1 },
+    { q: "What is the capital of Australia?", opts: ["Sydney", "Melbourne", "Canberra", "Perth"], ans: 2 },
+    { q: "Which vitamin is essential for blood clotting?", opts: ["Vitamin A", "Vitamin B", "Vitamin C", "Vitamin K"], ans: 3 },
+    { q: "Who discovered the electron?", opts: ["J.J. Thomson", "Rutherford", "Bohr", "Dalton"], ans: 0 },
+    { q: "The 'Swaraj Party' was founded by?", opts: ["C.R. Das and Motilal Nehru", "Gandhi and Nehru", "Tilak and Gokhale", "Subhash Bose"], ans: 0 },
+    { q: "Which is the longest river in the world?", opts: ["Amazon", "Nile", "Ganga", "Yangtze"], ans: 1 },
+    { q: "What is the chemical name of common salt?", opts: ["Sodium Carbonate", "Sodium Chloride", "Sodium Bicarbonate", "Calcium Chloride"], ans: 1 },
+    { q: "The 'Bhakra Nangal Dam' is built on which river?", opts: ["Sutlej", "Indus", "Chenab", "Jhelum"], ans: 0 },
+    { q: "Which state is the largest producer of tea in India?", opts: ["Assam", "West Bengal", "Kerala", "Tamil Nadu"], ans: 0 },
+    { q: "The 'Right to Information Act' was implemented in which year?", opts: ["2000", "2005", "2010", "2012"], ans: 1 },
+    { q: "Which gland is known as the 'Master Gland'?", opts: ["Thyroid", "Pituitary", "Adrenal", "Pancreas"], ans: 1 },
+    { q: "Who was the first person to step on the Moon?", opts: ["Yuri Gagarin", "Neil Armstrong", "Buzz Aldrin", "John Glenn"], ans: 1 },
+    { q: "Which country is known as the 'Land of the Rising Sun'?", opts: ["China", "Japan", "South Korea", "Thailand"], ans: 1 },
+    { q: "The 'Gateway of India' is located in?", opts: ["Delhi", "Mumbai", "Kolkata", "Chennai"], ans: 1 },
+    { q: "Which enzyme is responsible for the digestion of starch?", opts: ["Pepsin", "Amylase", "Lipase", "Trypsin"], ans: 1 },
+    { q: "What is the unit of electric resistance?", opts: ["Volt", "Ampere", "Ohm", "Watt"], ans: 2 },
+    { q: "Which king built the Konark Sun Temple?", opts: ["Ashoka", "Narasimhadeva I", "Kanishka", "Harshavardhana"], ans: 1 },
+    { q: "Who is the author of 'Godan'?", opts: ["Premchand", "Tulsidas", "Kabir", "Kalidas"], ans: 0 },
+    { q: "Which chemical is used to ripen fruits?", opts: ["Ethylene", "Methane", "Propane", "Butane"], ans: 0 },
+    { q: "What is the study of birds called?", opts: ["Ornithology", "Entomology", "Herpetology", "Ichthyology"], ans: 0 },
+    { q: "The 'Jallianwala Bagh Massacre' took place in?", opts: ["1917", "1918", "1919", "1920"], ans: 2 },
+    { q: "Which part of the eye determines its color?", opts: ["Pupil", "Iris", "Lens", "Cornea"], ans: 1 },
+    { q: "Who was the first Deputy Prime Minister of India?", opts: ["B.R. Ambedkar", "Sardar Patel", "Morarji Desai", "Lal Bahadur Shastri"], ans: 1 },
+    { q: "Which metal is the best conductor of electricity?", opts: ["Copper", "Silver", "Gold", "Aluminium"], ans: 1 },
+    { q: "Where is the 'Valley of Flowers' National Park located?", opts: ["Uttarakhand", "Himachal Pradesh", "Jammu & Kashmir", "Sikkim"], ans: 0 },
+    { q: "The 'World Health Organization' (WHO) is headquartered in?", opts: ["New York", "Geneva", "Paris", "London"], ans: 1 },
+    { q: "Which hormone regulates blood sugar levels?", opts: ["Insulin", "Adrenaline", "Thyroxine", "Estrogen"], ans: 0 },
+    { q: "The 'Iron Man of India' is a title given to?", opts: ["Subhash Chandra Bose", "Sardar Patel", "Mahatma Gandhi", "Jawaharlal Nehru"], ans: 1 },
+    { q: "Which acid is found in lemon?", opts: ["Citric acid", "Lactic acid", "Tartaric acid", "Malic acid"], ans: 0 },
+    { q: "What is the capital of France?", opts: ["Berlin", "Madrid", "Paris", "Rome"], ans: 2 },
+    { q: "The 'Great Bath' was found in which site of Indus Valley Civilization?", opts: ["Harappa", "Mohenjo-daro", "Lothal", "Kalibangan"], ans: 1 },
+    { q: "Which layer of the atmosphere protects us from UV rays?", opts: ["Troposphere", "Stratosphere", "Mesosphere", "Exosphere"], ans: 1 },
+    { q: "What is the SI unit of power?", opts: ["Joule", "Pascal", "Watt", "Volt"], ans: 2 },
+    { q: "Which is the largest island in the world?", opts: ["Greenland", "New Guinea", "Borneo", "Madagascar"], ans: 0 },
+    { q: "The 'Quit India' resolution was passed in which city?", opts: ["Delhi", "Bombay", "Calcutta", "Madras"], ans: 1 },
+    { q: "Which blood group is the universal donor?", opts: ["A+", "AB+", "O-", "O+"], ans: 2 },
+    { q: "Who painted the 'Mona Lisa'?", opts: ["Michelangelo", "Leonardo da Vinci", "Raphael", "Picasso"], ans: 1 },
+    { q: "What is the hardness of diamond on the Mohs scale?", opts: ["8", "9", "10", "7"], ans: 2 },
+    { q: "Which is the smallest planet in the solar system?", opts: ["Mars", "Mercury", "Venus", "Neptune"], ans: 1 },
+    { q: "The 'Brahmo Samaj' was founded in which year?", opts: ["1828", "1830", "1850", "1875"], ans: 0 },
+    { q: "Which part of the body is affected by pneumonia?", opts: ["Heart", "Lungs", "Kidneys", "Liver"], ans: 1 },
+    { q: "What is the full form of NASA?", opts: ["National Aeronautics and Space Administration", "National Air and Space Agency", "National Association of Space Aeronautics", "None of these"], ans: 0 },
+    { q: "The 'Rig Veda' is the oldest Veda, containing how many hymns?", opts: ["1028", "1050", "1000", "950"], ans: 0 },
+    { q: "Which state is famous for the 'Gir' National Park?", opts: ["Gujarat", "Rajasthan", "Madhya Pradesh", "Maharashtra"], ans: 0 },
+    { q: "What is the freezing point of water in Kelvin?", opts: ["273 K", "373 K", "0 K", "100 K"], ans: 0 },
+    { q: "Who is known as the 'Missile Man of India'?", opts: ["Vikram Sarabhai", "Homi Bhabha", "A.P.J. Abdul Kalam", "C.V. Raman"], ans: 2 },
+    { q: "Which of the following is a Kharif crop?", opts: ["Wheat", "Mustard", "Rice", "Gram"], ans: 2 },
+    { q: "The 'Theory of Relativity' was proposed by?", opts: ["Isaac Newton", "Albert Einstein", "Stephen Hawking", "Niels Bohr"], ans: 1 },
+    { q: "Which gas is used for the artificial ripening of fruits?", opts: ["Ethylene", "Methane", "Acetylene", "Ethane"], ans: 0 },
+    { q: "The 'Hindustan Socialist Republican Association' was founded by?", opts: ["Bhagat Singh", "Chandrashekhar Azad", "Subhash Chandra Bose", "Both (a) and (b)"], ans: 3 },
+    { q: "Which state has the longest coastline in India?", opts: ["Gujarat", "Andhra Pradesh", "Tamil Nadu", "Maharashtra"], ans: 0 },
+    { q: "What is the study of soil called?", opts: ["Pedology", "Hydrology", "Geology", "Seismology"], ans: 0 },
+    { q: "The 'Gol Gumbaz' is located in?", opts: ["Bijapur", "Hyderabad", "Delhi", "Agra"], ans: 0 },
+    { q: "Which vitamin is also known as 'Ascorbic Acid'?", opts: ["Vitamin A", "Vitamin B", "Vitamin C", "Vitamin D"], ans: 2 },
+    { q: "Who was the first woman to win a Nobel Prize?", opts: ["Mother Teresa", "Marie Curie", "Florence Nightingale", "Malala Yousafzai"], ans: 1 },
+    { q: "The 'Treaty of Seringapatam' was signed after which war?", opts: ["First Mysore War", "Second Mysore War", "Third Mysore War", "Fourth Mysore War"], ans: 2 },
+    { q: "Which layer of the Earth is the thickest?", opts: ["Crust", "Mantle", "Outer Core", "Inner Core"], ans: 1 },
+    { q: "What is the SI unit of pressure?", opts: ["Newton", "Pascal", "Joule", "Watt"], ans: 1 },
+    { q: "Which country gifted the 'Statue of Liberty' to the USA?", opts: ["France", "UK", "Germany", "Spain"], ans: 0 },
+    { q: "The 'Chauri Chaura' incident led to the withdrawal of?", opts: ["Non-Cooperation Movement", "Civil Disobedience Movement", "Quit India Movement", "Khilafat Movement"], ans: 0 },
+    { q: "Which gas is most abundant in the Sun's atmosphere?", opts: ["Helium", "Hydrogen", "Oxygen", "Nitrogen"], ans: 1 },
+    { q: "Who designed the national flag of India?", opts: ["Pingali Venkayya", "Rabindranath Tagore", "Bankim Chandra", "Sarojini Naidu"], ans: 0 },
+    { q: "The 'Panch Mahal' is located in?", opts: ["Fatehpur Sikri", "Agra", "Delhi", "Lahore"], ans: 0 },
+    { q: "Which planet has the most moons?", opts: ["Jupiter", "Saturn", "Mars", "Uranus"], ans: 1 },
+    { q: "The 'Sati Pratha' was abolished by?", opts: ["Lord William Bentinck", "Lord Dalhousie", "Lord Ripon", "Lord Curzon"], ans: 0 },
+    { q: "What is the melting point of ice?", opts: ["0°C", "4°C", "100°C", "-4°C"], ans: 0 },
+    { q: "Which organelle is known as the 'Powerhouse of the Cell'?", opts: ["Nucleus", "Ribosome", "Mitochondria", "Lysosome"], ans: 2 },
+    { q: "The 'Battle of Haldighati' was fought between?", opts: ["Akbar and Maharana Pratap", "Akbar and Hemu", "Babur and Rana Sanga", "Aurangzeb and Shivaji"], ans: 0 },
+    { q: "Which acid is present in ant stings?", opts: ["Formic acid", "Acetic acid", "Lactic acid", "Citric acid"], ans: 0 },
+    { q: "Who was the first Indian woman to reach the space?", opts: ["Sunita Williams", "Kalpana Chawla", "Rakesh Sharma", "Sirisha Bandla"], ans: 1 },
+    { q: "Which is the largest ocean in the world?", opts: ["Atlantic", "Indian", "Arctic", "Pacific"], ans: 3 },
+    { q: "What is the normal body temperature of humans in Celsius?", opts: ["36.9°C", "37°C", "38°C", "35°C"], ans: 1 },
+    { q: "The 'Indian National Army' (INA) was founded by?", opts: ["Subhash Chandra Bose", "Rash Behari Bose", "Mohan Singh", "All of these"], ans: 3 },
+    { q: "Which gas is essential for burning?", opts: ["Nitrogen", "Oxygen", "Carbon Dioxide", "Hydrogen"], ans: 1 },
+    { q: "What is the capital of Canada?", opts: ["Toronto", "Ottawa", "Vancouver", "Montreal"], ans: 1 },
+    { q: "Which metal is used in galvanizing iron?", opts: ["Copper", "Zinc", "Tin", "Nickel"], ans: 1 },
+    { q: "Who was the author of 'Arthashastra'?", opts: ["Kautilya", "Megasthenes", "Kalidasa", "Banabhatta"], ans: 0 },
+    { q: "Which part of the body is affected by Malaria?", opts: ["Heart", "Lungs", "Spleen", "Kidneys"], ans: 2 },
+    { q: "The 'Buland Darwaza' was built by?", opts: ["Babur", "Humayun", "Akbar", "Shah Jahan"], ans: 2 },
+    { q: "Which is the highest waterfall in the world?", opts: ["Angel Falls", "Victoria Falls", "Niagara Falls", "Jog Falls"], ans: 0 },
+    { q: "Who was the first person to orbit the Earth?", opts: ["Neil Armstrong", "Yuri Gagarin", "Valentina Tereshkova", "John Glenn"], ans: 1 },
+    { q: "Which chemical is found in teeth enamel?", opts: ["Calcium Phosphate", "Calcium Carbonate", "Calcium Sulfate", "Calcium Fluoride"], ans: 0 },
+    { q: "The 'Simon Commission' visited India in which year?", opts: ["1925", "1927", "1928", "1930"], ans: 2 },
+    { q: "Which hormone is called the 'Emergency Hormone'?", opts: ["Adrenaline", "Insulin", "Thyroxine", "Estrogen"], ans: 0 },
+    { q: "What is the capital of Brazil?", opts: ["Rio de Janeiro", "Brasilia", "Sao Paulo", "Salvador"], ans: 1 },
+    { q: "Which layer of the atmosphere reflects radio waves?", opts: ["Stratosphere", "Mesosphere", "Ionosphere", "Exosphere"], ans: 2 },
+    { q: "Who was the Viceroy of India during the partition of Bengal?", opts: ["Lord Curzon", "Lord Minto", "Lord Hardinge", "Lord Chelmsford"], ans: 0 },
+    { q: "Which is the largest fresh water lake in the world?", opts: ["Lake Superior", "Lake Victoria", "Lake Baikal", "Lake Michigan"], ans: 0 },
+    { q: "What is the speed of sound in air?", opts: ["330 m/s", "300 m/s", "340 m/s", "350 m/s"], ans: 0 },
+    { q: "Who is known as the 'Father of Indian Renaissance'?", opts: ["Swami Vivekananda", "Raja Rammohan Roy", "Dayanand Saraswati", "Ramakrishna Paramahamsa"], ans: 1 },
+    { q: "Which enzyme is found in saliva?", opts: ["Pepsin", "Amylase", "Trypsin", "Lipase"], ans: 1 },
+    { q: "The 'Quit India Movement' failed due to?", opts: ["Lack of leadership", "British repression", "Support of other parties", "All of these"], ans: 1 },
+    { q: "Which is the most reactive metal?", opts: ["Gold", "Silver", "Potassium", "Iron"], ans: 2 },
+    { q: "Who discovered the neutron?", opts: ["James Chadwick", "J.J. Thomson", "Rutherford", "Bohr"], ans: 0 },
+    { q: "The 'Red Fort' was built by?", opts: ["Akbar", "Jahangir", "Shah Jahan", "Aurangzeb"], ans: 2 },
+    { q: "Which vitamin helps in wound healing?", opts: ["Vitamin A", "Vitamin B", "Vitamin C", "Vitamin D"], ans: 2 },
+    { q: "Which gas is used in refrigerators?", opts: ["Freon", "Oxygen", "Nitrogen", "Argon"], ans: 0 },
+    { q: "The 'Dandi March' was associated with which movement?", opts: ["Non-Cooperation", "Civil Disobedience", "Quit India", "Khilafat"], ans: 1 },
+    { q: "Who invented the telephone?", opts: ["Alexander Graham Bell", "Thomas Edison", "Nikola Tesla", "Marconi"], ans: 0 },
+    { q: "Which state is known as the 'Spice Garden of India'?", opts: ["Karnataka", "Kerala", "Tamil Nadu", "Andhra Pradesh"], ans: 1 },
+    { q: "The 'Fundamental Duties' are borrowed from which country's constitution?", opts: ["USA", "USSR (Russia)", "Canada", "Ireland"], ans: 1 },
+    { q: "What is the study of fossils called?", opts: ["Paleontology", "Archaeology", "Biology", "Anthropology"], ans: 0 },
+    { q: "Which river is the longest in India?", opts: ["Ganga", "Yamuna", "Godavari", "Brahmaputra"], ans: 0 },
+    { q: "The 'Lothal' site belongs to which civilization?", opts: ["Indus Valley", "Mesopotamian", "Egyptian", "Chinese"], ans: 0 },
+    { q: "Which metal is used to make aircrafts?", opts: ["Steel", "Aluminum", "Iron", "Copper"], ans: 1 },
+    { q: "Who was the first woman governor of an Indian state?", opts: ["Sarojini Naidu", "Indira Gandhi", "Vijayalakshmi Pandit", "Sucheta Kripalani"], ans: 0 },
+    { q: "The 'Sarnath' is famous for?", opts: ["Buddha's first sermon", "Ashoka's pillar", "Temple", "Both (a) and (b)"], ans: 3 },
+    { q: "Which gas makes the sky look blue?", opts: ["Nitrogen", "Oxygen", "Argon", "Carbon Dioxide"], ans: 1 },
+    { q: "The 'World Environment Day' is celebrated on?", opts: ["June 5", "June 10", "July 5", "August 15"], ans: 0 },
+    { q: "Who wrote 'Vande Mataram'?", opts: ["Bankim Chandra Chatterjee", "Rabindranath Tagore", "Sarojini Naidu", "Mahatma Gandhi"], ans: 0 },
+    { q: "Which is the largest organ in the human body?", opts: ["Liver", "Skin", "Lungs", "Heart"], ans: 1 },
+    { q: "The 'Panchayat System' is mentioned in which schedule of the Constitution?", opts: ["9th", "10th", "11th", "12th"], ans: 2 },
+    { q: "Which chemical is known as 'Blue Vitriol'?", opts: ["Copper Sulfate", "Iron Sulfate", "Zinc Sulfate", "Magnesium Sulfate"], ans: 0 },
+    { q: "Who discovered Penicillin?", opts: ["Alexander Fleming", "Louis Pasteur", "Edward Jenner", "Robert Koch"], ans: 0 },
+    { q: "The 'Taj Mahal' was built by which emperor?", opts: ["Akbar", "Jahangir", "Shah Jahan", "Aurangzeb"], ans: 2 },
+    { q: "Which country has the largest forest cover?", opts: ["Brazil", "Russia", "USA", "Canada"], ans: 1 },
+    { q: "What is the speed of light in vacuum?", opts: ["3 x 10^8 m/s", "3 x 10^6 m/s", "2 x 10^8 m/s", "3 x 10^5 m/s"], ans: 0 },
+    { q: "The 'First War of Independence' started in?", opts: ["1857", "1947", "1885", "1905"], ans: 0 },
+    { q: "Which acid is present in gastric juice?", opts: ["HCl", "H2SO4", "HNO3", "Acetic acid"], ans: 0 },
+    { q: "The 'Statue of Unity' is located in which state?", opts: ["Maharashtra", "Gujarat", "Rajasthan", "Madhya Pradesh"], ans: 1 },
+    { q: "Which element is found in all organic compounds?", opts: ["Carbon", "Oxygen", "Nitrogen", "Hydrogen"], ans: 0 },
+    { q: "Who is known as the 'Nightingale of India'?", opts: ["Sarojini Naidu", "Lata Mangeshkar", "Indira Gandhi", "PT Usha"], ans: 0 },
+    { q: "The 'Great Wall of China' was built by?", opts: ["Qin Shi Huang", "Han Dynasty", "Ming Dynasty", "Both (a) and (c)"], ans: 3 },
+    { q: "Which is the hardest natural substance?", opts: ["Diamond", "Gold", "Platinum", "Iron"], ans: 0 },
+    { q: "What is the capital of Thailand?", opts: ["Bangkok", "Seoul", "Manila", "Tokyo"], ans: 0 },
+    { q: "Which gas is used in fluorescent lamps?", opts: ["Neon", "Oxygen", "Carbon Dioxide", "Hydrogen"], ans: 0 },
+    { q: "The 'Kalinga War' had a great impact on?", opts: ["Ashoka", "Chandragupta", "Bindusara", "Akbar"], ans: 0 },
+    { q: "Which part of the brain controls memory?", opts: ["Cerebrum", "Cerebellum", "Medulla", "Thalamus"], ans: 0 },
+    { q: "The 'Khilafat Movement' was led by?", opts: ["Ali Brothers", "Jinnah", "Gandhi", "Nehru"], ans: 0 },
+    { q: "Which is the largest desert in Asia?", opts: ["Gobi", "Thar", "Arabian", "Taklamakan"], ans: 0 },
+    { q: "Who is known as the 'Father of Modern Computer'?", opts: ["Alan Turing", "Charles Babbage", "Bill Gates", "Steve Jobs"], ans: 0 },
+    { q: "Which chemical is used as a disinfectant in water?", opts: ["Chlorine", "Bromine", "Iodine", "Fluorine"], ans: 0 },
+    { q: "The 'Champaran Satyagraha' was the first satyagraha of?", opts: ["Gandhi", "Nehru", "Patel", "Tilak"], ans: 0 },
+    { q: "Which hormone is associated with the 'fight or flight' response?", opts: ["Adrenaline", "Insulin", "Thyroxine", "Estrogen"], ans: 0 },
+    { q: "What is the capital of Norway?", opts: ["Oslo", "Stockholm", "Helsinki", "Copenhagen"], ans: 0 },
+    { q: "Which layer of the atmosphere is closest to Earth?", opts: ["Troposphere", "Stratosphere", "Mesosphere", "Thermosphere"], ans: 0 },
+    { q: "Who was the Viceroy during the Jallianwala Bagh massacre?", opts: ["Lord Chelmsford", "Lord Reading", "Lord Irwin", "Lord Curzon"], ans: 0 },
+    { q: "Which is the largest lake in India?", opts: ["Vembanad Lake", "Chilika Lake", "Wular Lake", "Sambhar Lake"], ans: 1 },
+    { q: "What is the speed of sound in water?", opts: ["1480 m/s", "1500 m/s", "1550 m/s", "1600 m/s"], ans: 0 },
+    { q: "Who is known as the 'Iron Lady of India'?", opts: ["Indira Gandhi", "Sarojini Naidu", "PT Usha", "Mother Teresa"], ans: 0 },
+    { q: "Which enzyme is found in the stomach?", opts: ["Pepsin", "Amylase", "Lipase", "Trypsin"], ans: 0 },
+    { q: "The 'Quit India Movement' slogan 'Do or Die' was given by?", opts: ["Gandhi", "Nehru", "Patel", "Subhash Bose"], ans: 0 },
+    { q: "Which is the most abundant metal in the Earth's crust?", opts: ["Iron", "Aluminum", "Copper", "Gold"], ans: 1 },
+    { q: "Who discovered the nucleus of a cell?", opts: ["Robert Brown", "Robert Hooke", "Darwin", "Mendel"], ans: 0 },
+    { q: "The 'Red Fort' in Delhi was built by?", opts: ["Shah Jahan", "Akbar", "Jahangir", "Aurangzeb"], ans: 2 },
+    { q: "Which vitamin deficiency causes Rickets?", opts: ["Vitamin D", "Vitamin A", "Vitamin B", "Vitamin C"], ans: 0 },
+    { q: "Which gas is commonly used in balloons to make them float?", opts: ["Helium", "Oxygen", "Nitrogen", "Carbon Dioxide"], ans: 0 },
+    { q: "The 'Dandi March' ended in which year?", opts: ["1930", "1931", "1942", "1947"], ans: 0 },
+    { q: "Who is known as the 'Father of Economics'?", opts: ["Adam Smith", "Karl Marx", "John Keynes", "Alfred Marshall"], ans: 0 },
+    { q: "Which state is known as the 'Land of Five Rivers'?", opts: ["Haryana", "Punjab", "Uttar Pradesh", "Gujarat"], ans: 1 },
+    { q: "The 'Preamble' of the Indian Constitution is based on?", opts: ["Objective Resolution", "Drafting Committee", "Constituent Assembly", "None"], ans: 0 },
+    { q: "What is the study of weather called?", opts: ["Meteorology", "Climatology", "Geology", "Seismology"], ans: 0 },
+    { q: "Which river is called the 'Sorrow of Bengal'?", opts: ["Damodar", "Hooghly", "Ganga", "Brahmaputra"], ans: 0 },
+    { q: "The 'Harappa' site was discovered in?", opts: ["1921", "1922", "1925", "1930"], ans: 0 },
+    { q: "Which metal is the most ductile?", opts: ["Gold", "Silver", "Copper", "Aluminum"], ans: 0 },
+    { q: "Who was the first woman judge of the Supreme Court?", opts: ["M. Fathima Beevi", "Indira Banerjee", "Indu Malhotra", "Ruma Pal"], ans: 0 },
+    { q: "The 'Ellora Caves' were built by?", opts: ["Rashtrakutas", "Cholas", "Pallavas", "Mauryas"], ans: 0 },
+    { q: "Which gas is known as 'Marsh Gas'?", opts: ["Methane", "Ethane", "Propane", "Butane"], ans: 0 },
+    { q: "The 'National Youth Day' is celebrated on?", opts: ["January 12", "January 26", "August 15", "October 2"], ans: 0 },
+    { q: "Who wrote 'Gitanjali'?", opts: ["Rabindranath Tagore", "Bankim Chandra", "Sarojini Naidu", "Tulsidas"], ans: 0 },
+    { q: "Which is the smallest bone in the human body?", opts: ["Stapes", "Femur", "Tibia", "Fibula"], ans: 0 },
+    { q: "The 'Panchayati Raj' was first introduced in which state?", opts: ["Rajasthan", "Andhra Pradesh", "Tamil Nadu", "Gujarat"], ans: 0 },
+    { q: "Which chemical is known as 'Oil of Vitriol'?", opts: ["Sulfuric Acid", "Nitric Acid", "Hydrochloric Acid", "Acetic Acid"], ans: 0 },
+    { q: "Who discovered the Polio vaccine?", opts: ["Jonas Salk", "Louis Pasteur", "Edward Jenner", "Robert Koch"], ans: 0 },
+    { q: "The 'Red Fort' in Agra was built by?", opts: ["Akbar", "Shah Jahan", "Jahangir", "Babur"], ans: 0 },
+    { q: "Which continent has the most countries?", opts: ["Africa", "Asia", "Europe", "South America"], ans: 0 },
+    { q: "What is the speed of sound at 20°C in air?", opts: ["343 m/s", "300 m/s", "330 m/s", "350 m/s"], ans: 0 },
+    { q: "The 'Partition of Bengal' was cancelled in?", opts: ["1911", "1905", "1910", "1912"], ans: 0 },
+    { q: "Which acid is found in curd?", opts: ["Lactic acid", "Citric acid", "Acetic acid", "Formic acid"], ans: 0 },
+    { q: "The 'Statue of Liberty' is in which city?", opts: ["New York", "Washington DC", "Chicago", "Los Angeles"], ans: 0 },
+    { q: "Which element is the most abundant in the human body?", opts: ["Oxygen", "Carbon", "Hydrogen", "Nitrogen"], ans: 0 },
+    { q: "Who is known as the 'Flying Sikh of India'?", opts: ["Milkha Singh", "PT Usha", "Hima Das", "Neeraj Chopra"], ans: 0 },
+    { q: "The 'Great Wall of China' is how long?", opts: ["21,000 km", "15,000 km", "10,000 km", "5,000 km"], ans: 0 },
+    { q: "Which is the softest mineral?", opts: ["Talc", "Gypsum", "Calcite", "Fluorite"], ans: 0 },
+    { q: "What is the capital of Switzerland?", opts: ["Bern", "Zurich", "Geneva", "Basel"], ans: 0 },
+    { q: "Which gas is responsible for the 'Bhopal Gas Tragedy'?", opts: ["Methyl Isocyanate", "Carbon Dioxide", "Ammonia", "Chlorine"], ans: 0 },
+    { q: "The 'Battle of Plassey' was fought in?", opts: ["1757", "1764", "1765", "1773"], ans: 0 },
+    { q: "Which part of the brain controls breathing?", opts: ["Medulla Oblongata", "Cerebrum", "Cerebellum", "Thalamus"], ans: 0 },
+    { q: "The 'Home Rule Movement' was started by?", opts: ["Annie Besant", "Tilak", "Both (a) and (b)", "Gandhi"], ans: 2 },
+    { q: "Which is the largest desert in the world?", opts: ["Sahara", "Antarctica", "Gobi", "Thar"], ans: 1 },
+    { q: "Who is the developer of the Linux kernel?", opts: ["Linus Torvalds", "Bill Gates", "Steve Jobs", "Mark Zuckerberg"], ans: 0 },
+    { q: "Which chemical is used for water purification?", opts: ["Chlorine", "Bromine", "Iodine", "Fluorine"], ans: 0 },
+    { q: "The 'Non-Cooperation Movement' was started in?", opts: ["1920", "1919", "1921", "1922"], ans: 0 },
+    { q: "Which hormone is associated with the 'sleep cycle'?", opts: ["Melatonin", "Adrenaline", "Insulin", "Thyroxine"], ans: 0 },
+    { q: "What is the capital of Italy?", opts: ["Rome", "Milan", "Venice", "Florence"], ans: 0 },
+    { q: "Which layer of the atmosphere contains weather?", opts: ["Troposphere", "Stratosphere", "Mesosphere", "Thermosphere"], ans: 0 },
+    { q: "Who was the Viceroy during the 'Quit India Movement'?", opts: ["Lord Linlithgow", "Lord Wavell", "Lord Mountbatten", "Lord Irwin"], ans: 0 },
+    { q: "Which is the deepest lake in the world?", opts: ["Lake Baikal", "Lake Superior", "Lake Victoria", "Lake Michigan"], ans: 0 },
+    { q: "What is the speed of sound in steel?", opts: ["5000 m/s", "330 m/s", "1500 m/s", "2000 m/s"], ans: 0 },
+    { q: "Who is known as the 'Lady with the Lamp'?", opts: ["Florence Nightingale", "Mother Teresa", "Sarojini Naidu", "Indira Gandhi"], ans: 0 },
+    { q: "Which enzyme helps in breaking down fats?", opts: ["Lipase", "Pepsin", "Amylase", "Trypsin"], ans: 0 },
+    { q: "The 'Salt Satyagraha' started in?", opts: ["1930", "1931", "1929", "1928"], ans: 0 },
+    { q: "Which is the most reactive non-metal?", opts: ["Fluorine", "Chlorine", "Bromine", "Iodine"], ans: 0 },
+    { q: "Who discovered the proton?", opts: ["Ernest Rutherford", "J.J. Thomson", "Chadwick", "Bohr"], ans: 0 },
+    { q: "The 'Red Fort' in Delhi was built by?", opts: ["Shah Jahan", "Akbar", "Jahangir", "Aurangzeb"], ans: 2 },
+    { q: "Which vitamin deficiency causes Rickets?", opts: ["Vitamin D", "Vitamin A", "Vitamin B", "Vitamin C"], ans: 0 },
+    { q: "Which gas is responsible for the cooling effect in a refrigerator?", opts: ["Freon", "Ammonia", "Carbon Dioxide", "Nitrogen"], ans: 0 },
+    { q: "The 'Dandi March' covered a distance of approximately how many miles?", opts: ["240 miles", "200 miles", "300 miles", "150 miles"], ans: 0 },
+    { q: "Who is known as the 'Father of the Green Revolution' in India?", opts: ["M.S. Swaminathan", "Norman Borlaug", "Verghese Kurien", "C. Subramaniam"], ans: 0 },
+    { q: "Which state is the largest producer of sugarcane in India?", opts: ["Uttar Pradesh", "Maharashtra", "Karnataka", "Tamil Nadu"], ans: 0 },
+    { q: "The 'Right to Property' was removed from Fundamental Rights by which amendment?", opts: ["44th Amendment", "42nd Amendment", "46th Amendment", "52nd Amendment"], ans: 0 },
+    { q: "What is the study of earthquakes called?", opts: ["Seismology", "Geology", "Meteorology", "Hydrology"], ans: 0 },
+    { q: "Which river is known as the 'Lifeline of Madhya Pradesh'?", opts: ["Narmada", "Tapi", "Chambal", "Betwa"], ans: 0 },
+    { q: "The 'Kalibangan' site is located in which state?", opts: ["Rajasthan", "Gujarat", "Haryana", "Punjab"], ans: 0 },
+    { q: "Which metal is used in thermometers?", opts: ["Mercury", "Gallium", "Lead", "Tin"], ans: 0 },
+    { q: "Who was the first woman President of the UN General Assembly?", opts: ["Vijayalakshmi Pandit", "Sarojini Naidu", "Indira Gandhi", "Sucheta Kripalani"], ans: 0 },
+    { q: "The 'Ajanta Caves' are famous for?", opts: ["Buddhist art", "Hindu art", "Jain art", "All of these"], ans: 0 },
+    { q: "Which gas is used in the preparation of soda water?", opts: ["Carbon Dioxide", "Oxygen", "Nitrogen", "Hydrogen"], ans: 0 },
+    { q: "The 'International Women's Day' is celebrated on?", opts: ["March 8", "March 15", "April 8", "May 8"], ans: 0 },
+    { q: "Who wrote 'Satyarth Prakash'?", opts: ["Swami Dayanand Saraswati", "Raja Rammohan Roy", "Vivekananda", "Ramakrishna"], ans: 0 },
+    { q: "Which is the largest gland in the human body?", opts: ["Liver", "Thyroid", "Pancreas", "Adrenal"], ans: 0 },
+    { q: "The 'Anti-Defection Law' is mentioned in which schedule?", opts: ["10th", "9th", "11th", "12th"], ans: 0 },
+    { q: "Which chemical is known as 'Saltpeter'?", opts: ["Potassium Nitrate", "Sodium Nitrate", "Calcium Nitrate", "Magnesium Nitrate"], ans: 0 },
+    { q: "Who discovered the circulation of blood?", opts: ["William Harvey", "Louis Pasteur", "Edward Jenner", "Robert Koch"], ans: 0 },
+    { q: "The 'Humayun's Tomb' was built by?", opts: ["Hamida Banu Begum", "Akbar", "Shah Jahan", "Babur"], ans: 0 },
+    { q: "Which country is known as the 'Land of Thousand Lakes'?", opts: ["Finland", "Sweden", "Norway", "Canada"], ans: 0 },
+    { q: "What is the speed of light in water?", opts: ["2.25 x 10^8 m/s", "3 x 10^8 m/s", "2 x 10^8 m/s", "2.5 x 10^8 m/s"], ans: 0 },
+    { q: "The 'Capital of India' was shifted from Calcutta to Delhi in?", opts: ["1911", "1905", "1912", "1920"], ans: 0 },
+    { q: "Which acid is found in tamarind?", opts: ["Tartaric acid", "Citric acid", "Acetic acid", "Lactic acid"], ans: 0 },
+    { q: "The 'Statue of Liberty' is a symbol of?", opts: ["Freedom", "Democracy", "Justice", "Equality"], ans: 0 },
+    { q: "Which element is the most abundant in the Earth's crust?", opts: ["Oxygen", "Silicon", "Aluminum", "Iron"], ans: 0 },
+    { q: "Who is known as the 'Grand Old Man of India'?", opts: ["Dadabhai Naoroji", "Bal Gangadhar Tilak", "Gopal Krishna Gokhale", "Mahatma Gandhi"], ans: 0 },
+    { q: "The 'Terracotta Army' was found in?", opts: ["China", "India", "Egypt", "Greece"], ans: 0 },
+    { q: "Which is the lightest gas?", opts: ["Hydrogen", "Helium", "Oxygen", "Nitrogen"], ans: 0 },
+    { q: "What is the capital of Indonesia?", opts: ["Jakarta", "Bali", "Bandung", "Surabaya"], ans: 0 },
+    { q: "Which gas is used in electric bulbs?", opts: ["Argon", "Oxygen", "Nitrogen", "Carbon Dioxide"], ans: 0 },
+    { q: "The 'Battle of Haldighati' was fought in?", opts: ["1576", "1556", "1560", "1580"], ans: 0 },
+    { q: "Which part of the brain controls vision?", opts: ["Occipital lobe", "Frontal lobe", "Parietal lobe", "Temporal lobe"], ans: 0 },
+    { q: "The 'Rowlatt Act' was passed in?", opts: ["1919", "1920", "1917", "1918"], ans: 0 },
+    { q: "Which is the smallest desert in the world?", opts: ["Carcross Desert", "Thar", "Gobi", "Kalahari"], ans: 0 },
+    { q: "Who developed the World Wide Web (WWW)?", opts: ["Tim Berners-Lee", "Bill Gates", "Steve Jobs", "Vint Cerf"], ans: 0 },
+    { q: "Which chemical is used to test starch?", opts: ["Iodine", "Bromine", "Chlorine", "Fluorine"], ans: 0 },
+    { q: "The 'Bardoli Satyagraha' was led by?", opts: ["Sardar Patel", "Gandhi", "Nehru", "Tilak"], ans: 0 },
+    { q: "Which hormone stimulates milk production?", opts: ["Prolactin", "Oxytocin", "Estrogen", "Progesterone"], ans: 0 },
+    { q: "What is the capital of Germany?", opts: ["Berlin", "Munich", "Frankfurt", "Hamburg"], ans: 0 },
+    { q: "Which layer of the atmosphere is known as the 'Ozone layer'?", opts: ["Stratosphere", "Troposphere", "Mesosphere", "Thermosphere"], ans: 0 },
+    { q: "Who was the Viceroy during the partition of India?", opts: ["Lord Mountbatten", "Lord Wavell", "Lord Linlithgow", "Lord Irwin"], ans: 0 },
+    { q: "Which is the most saline sea in the world?", opts: ["Dead Sea", "Red Sea", "Caspian Sea", "Black Sea"], ans: 0 },
+    { q: "What is the frequency range of audible sound?", opts: ["20 Hz - 20 kHz", "0 - 20 Hz", "20 kHz - 100 kHz", "100 Hz - 100 kHz"], ans: 0 },
+    { q: "Who is known as the 'Desert Fox'?", opts: ["Erwin Rommel", "Napoleon", "Hitler", "Churchill"], ans: 0 },
+    { q: "Which enzyme is found in the pancreas?", opts: ["Trypsin", "Pepsin", "Amylase", "Lipase"], ans: 0 },
+    { q: "The 'Poona Pact' was signed between?", opts: ["Gandhi and Ambedkar", "Gandhi and Jinnah", "Nehru and Ambedkar", "Patel and Gandhi"], ans: 0 },
+    { q: "Which is the most abundant non-metal in the Earth's crust?", opts: ["Oxygen", "Silicon", "Carbon", "Sulfur"], ans: 0 },
+    { q: "Who discovered the positron?", opts: ["Carl Anderson", "Chadwick", "J.J. Thomson", "Bohr"], ans: 0 },
+    { q: "The 'Diwan-e-Khas' was built by?", opts: ["Shah Jahan", "Akbar", "Jahangir", "Aurangzeb"], ans: 0 },
+    { q: "Which vitamin deficiency causes Rickets?", opts: ["Vitamin D", "Vitamin A", "Vitamin B", "Vitamin C"], ans: 0 },
+    { q: "Which gas is used in fire extinguishers?", opts: ["Carbon Dioxide", "Nitrogen", "Oxygen", "Argon"], ans: 0 },
+    { q: "The 'Dandi March' ended at which place?", opts: ["Dandi", "Sabarmati", "Surat", "Ahmedabad"], ans: 0 },
+    { q: "Who is known as the 'Father of the Indian Space Program'?", opts: ["Vikram Sarabhai", "Homi Bhabha", "A.P.J. Abdul Kalam", "Satish Dhawan"], ans: 0 },
+    { q: "Which state is the largest producer of coffee in India?", opts: ["Karnataka", "Kerala", "Tamil Nadu", "Andhra Pradesh"], ans: 0 },
+    { q: "The 'Money Bill' is defined in which article?", opts: ["Article 110", "Article 112", "Article 108", "Article 123"], ans: 0 },
+    { q: "What is the study of celestial bodies called?", opts: ["Astronomy", "Astrology", "Cosmology", "Astrophysics"], ans: 0 },
+    { q: "Which river is known as the 'Ganga of the South'?", opts: ["Kaveri", "Godavari", "Krishna", "Narmada"], ans: 0 },
+    { q: "The 'Mohenjo-daro' site is located in?", opts: ["Pakistan", "India", "Afghanistan", "Iran"], ans: 0 },
+    { q: "Which metal is used in galvanizing iron to prevent rust?", opts: ["Zinc", "Copper", "Tin", "Nickel"], ans: 0 },
+    { q: "Who was the first woman judge of the International Court of Justice?", opts: ["Rosalyn Higgins", "Ruma Pal", "Fathima Beevi", "None of these"], ans: 0 },
+    { q: "The 'Sun Temple' at Modhera is located in?", opts: ["Gujarat", "Odisha", "Rajasthan", "Madhya Pradesh"], ans: 0 },
+    { q: "Which gas is used in the manufacturing of vanaspati ghee?", opts: ["Hydrogen", "Oxygen", "Nitrogen", "Helium"], ans: 0 },
+    { q: "The 'World Health Day' is celebrated on?", opts: ["April 7", "April 15", "May 1", "June 5"], ans: 0 },
+    { q: "Who wrote the 'Ain-i-Akbari'?", opts: ["Abul Fazl", "Faizi", "Birbal", "Todar Mal"], ans: 0 },
+    { q: "Which is the smallest gland in the human body?", opts: ["Pineal gland", "Pituitary gland", "Thyroid gland", "Adrenal gland"], ans: 0 },
+    { q: "The 'Tenth Schedule' of the Constitution deals with?", opts: ["Anti-defection law", "Panchayati Raj", "Municipalities", "Language"], ans: 0 },
+    { q: "Which chemical is used in making photographic films?", opts: ["Silver Bromide", "Silver Chloride", "Silver Nitrate", "Silver Iodide"], ans: 0 },
+    { q: "Who is known as the 'Father of Immunology'?", opts: ["Edward Jenner", "Louis Pasteur", "Robert Koch", "Alexander Fleming"], ans: 0 },
+    { q: "The 'Akbar's Tomb' is located in?", opts: ["Sikandra", "Agra", "Delhi", "Lahore"], ans: 0 },
+    { q: "Which country has the most active volcanoes?", opts: ["Indonesia", "Japan", "USA", "Iceland"], ans: 0 },
+    { q: "What is the boiling point of water in Kelvin?", opts: ["373 K", "273 K", "300 K", "100 K"], ans: 0 },
+    { q: "The 'Partition of Bengal' was announced in?", opts: ["1905", "1906", "1911", "1912"], ans: 0 },
+    { q: "Which acid is found in grapes?", opts: ["Tartaric acid", "Malic acid", "Citric acid", "Oxalic acid"], ans: 0 },
+    { q: "The 'Statue of Unity' is dedicated to?", opts: ["Sardar Patel", "Mahatma Gandhi", "Subhash Bose", "Nehru"], ans: 0 },
+    { q: "Which is the most abundant element in the Earth's atmosphere?", opts: ["Nitrogen", "Oxygen", "Argon", "Carbon Dioxide"], ans: 0 },
+    { q: "Who is known as the 'Bard of Avon'?", opts: ["William Shakespeare", "John Milton", "Robert Frost", "T.S. Eliot"], ans: 0 },
+    { q: "The 'Silk Road' connected which two regions?", opts: ["China and Europe", "India and China", "India and Europe", "China and Africa"], ans: 0 },
+    { q: "Which is the lightest metal?", opts: ["Lithium", "Sodium", "Magnesium", "Potassium"], ans: 0 },
+    { q: "What is the capital of South Africa?", opts: ["Pretoria (Exec)", "Cape Town (Leg)", "Bloemfontein (Jud)", "All of these"], ans: 3 },
+    { q: "Which gas is used in deep-sea diving?", opts: ["Helium-Oxygen", "Nitrogen-Oxygen", "Argon-Oxygen", "Hydrogen-Oxygen"], ans: 0 },
+    { q: "The 'Battle of Panipat (1526)' was fought between?", opts: ["Babur and Ibrahim Lodi", "Akbar and Hemu", "Babur and Rana Sanga", "Humayun and Sher Shah"], ans: 0 },
+    { q: "Which part of the brain controls balance?", opts: ["Cerebellum", "Cerebrum", "Medulla", "Thalamus"], ans: 0 },
+    { q: "The 'Civil Disobedience Movement' was started in?", opts: ["1930", "1920", "1942", "1947"], ans: 0 },
+    { q: "Which is the driest place on Earth?", opts: ["Atacama Desert", "Sahara", "Gobi", "Thar"], ans: 0 },
+    { q: "Who invented the World Wide Web?", opts: ["Tim Berners-Lee", "Bill Gates", "Steve Jobs", "Larry Page"], ans: 0 },
+    { q: "Which chemical is used to preserve food?", opts: ["Sodium Benzoate", "Sodium Chloride", "Sodium Nitrate", "Potassium Permanganate"], ans: 0 },
+    { q: "The 'Lucknow Pact' was signed in?", opts: ["1916", "1915", "1917", "1918"], ans: 0 },
+    { q: "Which hormone is associated with the 'fight or flight' response?", opts: ["Adrenaline", "Insulin", "Thyroxine", "Estrogen"], ans: 0 },
+    { q: "What is the capital of Spain?", opts: ["Madrid", "Barcelona", "Seville", "Valencia"], ans: 0 },
+    { q: "Which layer of the atmosphere is known as the 'Ionosphere'?", opts: ["Thermosphere", "Stratosphere", "Mesosphere", "Exosphere"], ans: 0 },
+    { q: "Who was the Viceroy during the 'Jallianwala Bagh' massacre?", opts: ["Lord Chelmsford", "Lord Reading", "Lord Irwin", "Lord Curzon"], ans: 0 },
+    { q: "Which is the largest lake in India by surface area?", opts: ["Chilika Lake", "Vembanad Lake", "Wular Lake", "Sambhar Lake"], ans: 0 },
+    { q: "What is the speed of sound in vacuum?", opts: ["0 m/s", "330 m/s", "300 m/s", "1500 m/s"], ans: 0 },
+    { q: "Who is known as the 'Lady with the Lamp'?", opts: ["Florence Nightingale", "Mother Teresa", "Sarojini Naidu", "Indira Gandhi"], ans: 0 },
+    { q: "Which enzyme is found in the pancreas?", opts: ["Trypsin", "Pepsin", "Amylase", "Lipase"], ans: 0 },
+    { q: "The 'Quit India' movement started in?", opts: ["1942", "1940", "1943", "1945"], ans: 0 },
+    { q: "Which is the most reactive non-metal?", opts: ["Fluorine", "Chlorine", "Bromine", "Iodine"], ans: 0 },
+    { q: "Who discovered the proton?", opts: ["Ernest Rutherford", "J.J. Thomson", "Chadwick", "Bohr"], ans: 0 },
+    { q: "The 'Red Fort' in Delhi was built by?", opts: ["Shah Jahan", "Akbar", "Jahangir", "Aurangzeb"], ans: 0 },
+    { q: "Which vitamin deficiency causes Rickets?", opts: ["Vitamin D", "Vitamin A", "Vitamin B", "Vitamin C"], ans: 0 }
 ];
 
-let currentQ = 0, userAnswers = {};
+let currentQ = parseInt(localStorage.getItem('savedQ')) || 0;
+let userAnswers = JSON.parse(localStorage.getItem('savedAnswers')) || {};
 
 function loadQuestion() {
-  const qData = questions[currentQ];
-  document.getElementById('q-num').innerText = `Q. ${currentQ + 1}/${questions.length}`;
-  document.getElementById('q-text').innerText = qData.q;
-  const optsContainer = document.getElementById('options-container');
-  optsContainer.innerHTML = '';
-  qData.opts.forEach((opt, index) => {
-    const btn = document.createElement('button');
-    btn.className = `opt-btn ${userAnswers[currentQ] === index ? 'selected' : ''}`;
-    btn.innerHTML = `<div class="opt-circle">${String.fromCharCode(65+index)}</div>${opt}`;
-    btn.onclick = () => { userAnswers[currentQ] = index; loadQuestion(); };
-    optsContainer.appendChild(btn);
-  });
-  document.getElementById('next-btn').style.display = currentQ === questions.length - 1 ? 'none' : 'block';
-  document.getElementById('submit-btn').style.display = currentQ === questions.length - 1 ? 'block' : 'none';
+    const qData = questions[currentQ];
+    document.getElementById('q-num').innerText = `Q. ${currentQ + 1}/${questions.length}`;
+    document.getElementById('q-text').innerText = qData.q;
+    
+    // प्रोग्रेस सेव करें
+    localStorage.setItem('savedQ', currentQ);
+    
+    const container = document.getElementById('options-container');
+    container.innerHTML = '';
+    
+    qData.opts.forEach((opt, index) => {
+        const btn = document.createElement('button');
+        btn.className = 'opt-btn';
+        
+        // Immediate Feedback Logic
+        if (userAnswers[currentQ] !== undefined) {
+            if (index === qData.ans) btn.classList.add('correct');
+            else if (userAnswers[currentQ] === index) btn.classList.add('wrong');
+            btn.disabled = true;
+        }
+        
+        btn.innerText = opt;
+        btn.onclick = () => { 
+            userAnswers[currentQ] = index; 
+            localStorage.setItem('savedAnswers', JSON.stringify(userAnswers));
+            loadQuestion(); 
+        };
+        container.appendChild(btn);
+    });
+    document.getElementById('submit-btn').style.display = currentQ === questions.length - 1 ? 'block' : 'none';
 }
 
 function changeQ(step) {
-  if (currentQ + step >= 0 && currentQ + step < questions.length) {
-    currentQ += step;
-    loadQuestion();
-  }
+    if (currentQ + step >= 0 && currentQ + step < questions.length) {
+        currentQ += step;
+        loadQuestion();
+    }
 }
 
 function submitTest() {
-  let score = 0;
-  questions.forEach((q, i) => { if(userAnswers[i] === q.ans) score++; });
-  alert("Test Submit! Aapka Score: " + score + "/" + questions.length);
-  window.location.href = 'index.html';
+    let score = 0;
+    questions.forEach((q, i) => { if(userAnswers[i] === q.ans) score++; });
+    alert("Test Finished! Your Score: " + score + "/" + questions.length);
+    localStorage.clear(); // टेस्ट के बाद मेमोरी साफ़ करें
 }
 
 loadQuestion();
