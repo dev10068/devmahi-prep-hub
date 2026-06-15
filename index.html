@@ -37,42 +37,23 @@ html { scroll-behavior: smooth; }
   to { background-position: 100px 100px, 125px 125px, 0 0; }
 }
 body {
-  font-family: 'Noto Sans', sans-serif;
-  color: var(--text); min-height: 100vh; overscroll-behavior: none;
-  transition: color 0.3s;
-  background-image: 
-    radial-gradient(rgba(255,255,255,0.8) 1px, transparent 1px),
-    radial-gradient(rgba(255,255,255,0.4) 1px, transparent 1px),
-    linear-gradient(135deg, #e0c3fc 0%, #8ec5fc 100%);
-  background-size: 50px 50px, 70px 70px, 100% 100%;
-  background-attachment: fixed;
-  animation: moveStars 15s linear infinite;
+  font-family: 'Noto Sans', sans-serif; color: var(--text); min-height: 100vh; overscroll-behavior: none; transition: color 0.3s;
+  background-image: radial-gradient(rgba(255,255,255,0.8) 1px, transparent 1px), radial-gradient(rgba(255,255,255,0.4) 1px, transparent 1px), linear-gradient(135deg, #e0c3fc 0%, #8ec5fc 100%);
+  background-size: 50px 50px, 70px 70px, 100% 100%; background-attachment: fixed; animation: moveStars 15s linear infinite;
 }
 body.dark-mode {
-  background-image: 
-    radial-gradient(rgba(255,255,255,0.5) 1px, transparent 1px),
-    radial-gradient(rgba(255,255,255,0.2) 1px, transparent 1px),
-    linear-gradient(135deg, #0f1f3d 0%, #050505 100%);
+  background-image: radial-gradient(rgba(255,255,255,0.5) 1px, transparent 1px), radial-gradient(rgba(255,255,255,0.2) 1px, transparent 1px), linear-gradient(135deg, #0f1f3d 0%, #050505 100%);
 }
 
 /* ─── 🪟 GLASSMORPHISM ─── */
 .stat-card, .subj-card, .pyq-item, .wt-card, .syl-subject, .exam-tabs, .bottom-nav, .question-card, .exp-box {
-  background: rgba(255, 255, 255, 0.5) !important;
-  backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px);
-  border: 1px solid var(--border) !important;
-  box-shadow: var(--shadow);
+  background: rgba(255, 255, 255, 0.5) !important; backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); border: 1px solid var(--border) !important; box-shadow: var(--shadow);
 }
-body.dark-mode .stat-card, body.dark-mode .subj-card, body.dark-mode .pyq-item, 
-body.dark-mode .wt-card, body.dark-mode .syl-subject, body.dark-mode .exam-tabs, 
-body.dark-mode .bottom-nav, body.dark-mode .question-card, body.dark-mode .exp-box {
+body.dark-mode .stat-card, body.dark-mode .subj-card, body.dark-mode .pyq-item, body.dark-mode .wt-card, body.dark-mode .syl-subject, body.dark-mode .exam-tabs, body.dark-mode .bottom-nav, body.dark-mode .question-card, body.dark-mode .exp-box {
   background: rgba(20, 20, 25, 0.6) !important; color: white;
 }
 
-header {
-  background: rgba(15, 31, 61, 0.85); backdrop-filter: blur(10px);
-  padding: 12px 16px; display: flex; align-items: center; justify-content: space-between;
-  position: sticky; top:0; z-index:200; border-bottom: 1px solid rgba(255,255,255,0.1);
-}
+header { background: rgba(15, 31, 61, 0.85); backdrop-filter: blur(10px); padding: 12px 16px; display: flex; align-items: center; justify-content: space-between; position: sticky; top:0; z-index:200; border-bottom: 1px solid rgba(255,255,255,0.1); }
 .logo { font-family:'Baloo 2',cursive; font-size:22px; font-weight:800; color:var(--yellow); }
 .logo span { color:var(--saffron); }
 .header-right { display: flex; align-items: center; gap: 12px; }
@@ -284,7 +265,6 @@ body.dark-mode .res-card { background:#1e1e24; }
 .btn-orange { background:var(--saffron); color:white; border:none; padding:16px; border-radius:14px; font-size:15px; font-weight:800; font-family:'Baloo 2',cursive; cursor:pointer; box-shadow:0 4px 15px rgba(255,107,0,0.3); }
 .btn-white { background:white; color:var(--navy); border:2px solid var(--border); padding:14px; border-radius:14px; font-size:14px; font-weight:700; font-family:'Baloo 2',cursive; cursor:pointer; }
 body.dark-mode .btn-white { background:#1e1e24; color:white; border-color:#333; }
-
 </style>
 </head>
 <body>
@@ -387,7 +367,6 @@ body.dark-mode .btn-white { background:#1e1e24; color:white; border-color:#333; 
     <button class="exam-tab active" onclick="setPyqExam('ssc',this)">📋 SSC CGL</button>
     <button class="exam-tab" onclick="setPyqExam('ntpc',this)">🚂 Railway NTPC</button>
   </div>
-  
   <div id="pyq-ssc">
     <div class="pyq-year-group">
       <div class="year-label">2024</div>
@@ -450,7 +429,6 @@ body.dark-mode .btn-white { background:#1e1e24; color:white; border-color:#333; 
       </div>
     </div>
   </div>
-
   <div id="pyq-ntpc" style="display:none;">
     <div class="pyq-year-group">
       <div class="year-label">2024</div>
@@ -540,6 +518,7 @@ body.dark-mode .btn-white { background:#1e1e24; color:white; border-color:#333; 
   </button>
 </nav>
 
+<!-- ════ QUIZ OVERLAY ════ -->
 <div id="quiz-screen">
   <div class="quiz-header">
     <div class="quiz-top">
@@ -559,6 +538,7 @@ body.dark-mode .btn-white { background:#1e1e24; color:white; border-color:#333; 
   <button class="next-btn-q" id="next-q-btn" onclick="nextQ()">Agla Sawal →</button>
 </div>
 
+<!-- ════ BOOSTER OVERLAY ════ -->
 <div id="boost-screen">
   <div class="boost-header">
     <button onclick="closeBooster()" style="background:rgba(255,255,255,0.2);border:none;color:white;width:36px;height:36px;border-radius:50%;font-size:18px;cursor:pointer;flex-shrink:0;display:flex;align-items:center;justify-content:center;">←</button>
@@ -573,6 +553,8 @@ body.dark-mode .btn-white { background:#1e1e24; color:white; border-color:#333; 
     <button class="t-pill" onclick="setBTopic('mul',this)">✖️ Multiply</button>
     <button class="t-pill" onclick="setBTopic('pct',this)">% Percent</button>
     <button class="t-pill" onclick="setBTopic('sq',this)">² Squares</button>
+    <button class="t-pill" onclick="setBTopic('cube',this)">³ Cubes</button>
+    <button class="t-pill" onclick="setBTopic('frac',this)">½ Fractions</button>
   </div>
   <div class="b-stats-row">
     <div class="b-stat"><div class="b-stat-n g" id="b-cor">0</div><div class="b-stat-l">Correct ✓</div></div>
@@ -592,6 +574,7 @@ body.dark-mode .btn-white { background:#1e1e24; color:white; border-color:#333; 
   </div>
 </div>
 
+<!-- ════ RESULT OVERLAY ════ -->
 <div id="result-screen">
   <div class="res-hero">
     <span class="res-emoji" id="res-emoji">🏆</span>
@@ -614,22 +597,7 @@ body.dark-mode .btn-white { background:#1e1e24; color:white; border-color:#333; 
 
 <script>
 // ═══════════════════════════════════════════
-//  THEME TOGGLE (DARK MODE)
-// ═══════════════════════════════════════════
-function toggleTheme() {
-  document.body.classList.toggle('dark-mode');
-  const btn = document.getElementById('theme-btn');
-  if(document.body.classList.contains('dark-mode')) {
-    btn.textContent = '☀️';
-    localStorage.setItem('theme', 'dark');
-  } else {
-    btn.textContent = '🌙';
-    localStorage.setItem('theme', 'light');
-  }
-}
-
-// ═══════════════════════════════════════════
-//  1. MAIN DATA (QUESTIONS)
+//  DATA
 // ═══════════════════════════════════════════
 const Q = {
   math: [
@@ -690,6 +658,7 @@ const Q = {
   ]
 };
 
+// Build PYQ sets
 const pyqSets = {
   pyq_ssc24: shuffle([...Q.math.slice(0,4), ...Q.gk.slice(0,4), ...Q.english.slice(0,2), ...Q.reasoning.slice(0,2)]),
   pyq_ssc23: shuffle([...Q.math.slice(2,6), ...Q.gk.slice(2,6), ...Q.english.slice(1,3), ...Q.reasoning.slice(1,3)]),
@@ -701,7 +670,7 @@ const pyqSets = {
   pyq_ntpc22: shuffle([...Q.math.slice(3,7), ...Q.gk.slice(3,7), ...Q.english.slice(2,4), ...Q.reasoning.slice(2,4)]),
   pyq_ntpc22p2: shuffle([...Q.math.slice(7,11), ...Q.gk.slice(7,11), ...Q.english.slice(5,8), ...Q.reasoning.slice(5,8)]),
   pyq_ntpc21: shuffle([...Q.math.slice(5,9), ...Q.gk.slice(5,9), ...Q.english.slice(1,4), ...Q.reasoning.slice(1,4)]),
-  pyq_ntpc20: shuffle([...Q.math.slice(9,13), ...Q.gk.slice(9,13), ...Q.english.slice(3,6), ...Q.reasoning.slice(3,6)])
+  pyq_ntpc20: shuffle([...Q.math.slice(9,13), ...Q.gk.slice(9,13), ...Q.english.slice(3,6), ...Q.reasoning.slice(3,6)]),
 };
 
 const allQ = { ...Q, ...pyqSets };
@@ -715,50 +684,110 @@ function shuffle(arr) {
 }
 
 // ═══════════════════════════════════════════
-//  2. SYLLABUS & WEIGHTAGE DATA
+//  SYLLABUS DATA
 // ═══════════════════════════════════════════
 const SYLLABUS = {
   ssc: {
-    name: "SSC CGL 2024-25", info: "Tier 1: 100 Qs | 60 min | -0.5 negative marking",
+    name: "SSC CGL 2024-25",
+    info: "Tier 1: 100 Qs | 60 min | -0.5 negative marking",
     subjects: [
-      { name:"General Intelligence & Reasoning", color:"#f59e0b", qs:"25 Qs", topics:["Analogy", "Classification", "Series", "Coding-Decoding", "Blood Relations", "Direction & Distance", "Order & Ranking", "Calendar & Clock", "Venn Diagram", "Syllogism", "Matrix", "Mirror & Water Image", "Paper Folding/Cutting"] },
-      { name:"General Awareness (GK)", color:"#00b877", qs:"25 Qs", topics:["History", "Polity", "Geography", "Economy", "Science", "Computer Basics", "Current Affairs", "Sports & Awards", "Books & Authors", "Important Dates"] },
-      { name:"Quantitative Aptitude (Math)", color:"#ff6b00", qs:"25 Qs", topics:["Number System", "Percentage", "Ratio", "Profit-Loss", "Simple & Compound Interest", "Time-Speed-Distance", "Time & Work", "Algebra", "Geometry", "Trigonometry", "Statistics", "Data Interpretation"] },
-      { name:"English Language", color:"#7c3aed", qs:"25 Qs", topics:["Vocabulary", "Idioms", "Reading Comprehension", "Error Spotting", "Fill in the Blanks", "Sentence Improvement", "Para Jumbles", "Active-Passive Voice", "Direct-Indirect Narration", "Cloze Test"] }
+      { name:"General Intelligence & Reasoning", color:"#f59e0b", qs:"25 Qs", topics:[
+        "Analogy (Verbal & Non-Verbal)","Classification","Series (Number, Letter, Figure)","Coding-Decoding",
+        "Blood Relations","Direction & Distance","Order & Ranking","Calendar & Clock",
+        "Venn Diagram","Syllogism","Matrix","Mirror & Water Image","Paper Folding/Cutting"
+      ]},
+      { name:"General Awareness (GK)", color:"#00b877", qs:"25 Qs", topics:[
+        "History (Ancient, Medieval, Modern)","Indian Polity & Constitution","Geography (India & World)",
+        "Economy & Budget","Physics, Chemistry, Biology","Computer Basics",
+        "Current Affairs (6 months)","Sports & Awards","Books & Authors","Important Dates"
+      ]},
+      { name:"Quantitative Aptitude (Math)", color:"#ff6b00", qs:"25 Qs", topics:[
+        "Number System & HCF/LCM","Simplification & Approximation","Percentage","Ratio & Proportion",
+        "Profit-Loss & Discount","Simple Interest & Compound Interest","Time-Speed-Distance",
+        "Time & Work (Pipes too)","Algebra & Linear Equations","Geometry & Mensuration",
+        "Trigonometry","Statistics (Mean, Median, Mode)","Data Interpretation"
+      ]},
+      { name:"English Language", color:"#7c3aed", qs:"25 Qs", topics:[
+        "Vocabulary (Synonyms, Antonyms)","Idioms & Phrases","One Word Substitution",
+        "Spelling Correction","Reading Comprehension","Fill in the Blanks",
+        "Sentence Improvement","Error Spotting","Para Jumbles","Active-Passive Voice",
+        "Direct-Indirect Narration","Cloze Test"
+      ]},
     ]
   },
   ntpc: {
-    name: "RRB NTPC 2024", info: "CBT 1: 100 Qs | 90 min | -1/3 negative marking",
+    name: "RRB NTPC 2024",
+    info: "CBT 1: 100 Qs | 90 min | -1/3 negative marking",
     subjects: [
-      { name:"Mathematics", color:"#ff6b00", qs:"30 Qs", topics:["Number System", "Decimals", "Time & Work", "Algebra", "Mensuration", "Time & Distance", "Simple & Compound Interest", "Profit & Loss", "Geometry", "Trigonometry", "Elementary Statistics"] },
-      { name:"Reasoning", color:"#f59e0b", qs:"30 Qs", topics:["Analogies", "Coding & Decoding", "Venn Diagram", "Mathematical Operations", "Similarities & Differences", "Relationships", "Analytical Reasoning", "Syllogism", "Jumbling", "Data Sufficiency", "Statement-Conclusion"] },
-      { name:"General Awareness", color:"#00b877", qs:"40 Qs", topics:["Current Events", "Games & Sports", "History", "Art & Culture", "Indian Literature", "Monuments & Places", "General Science", "Physical, Social & Economic Geography", "Indian Polity & Governance", "Indian Economy", "Famous Personalities", "Flora & Fauna", "Computers & Applications"] }
+      { name:"Mathematics", color:"#ff6b00", qs:"30 Qs", topics:[
+        "Number System","Decimals & Fractions","LCM & HCF","Ratio & Proportions",
+        "Percentage","Mensuration","Time & Work","Time & Distance",
+        "Simple & Compound Interest","Profit & Loss","Algebra","Geometry",
+        "Trigonometry","Elementary Statistics"
+      ]},
+      { name:"General Intelligence & Reasoning", color:"#f59e0b", qs:"30 Qs", topics:[
+        "Analogies","Completion of Number & Alphabetical Series","Coding & Decoding",
+        "Mathematical Operations","Similarities & Differences","Relationships",
+        "Analytical Reasoning","Syllogism","Jumbling","Venn Diagram",
+        "Data Sufficiency","Statement-Conclusion","Statement-Courses of Action"
+      ]},
+      { name:"General Awareness", color:"#00b877", qs:"40 Qs", topics:[
+        "Current Events (National & International)","Games & Sports","Art & Culture",
+        "Indian Literature","Monuments & Places","General Science",
+        "India's History & Freedom Struggle","Physical, Social & Economic Geography",
+        "Indian Polity & Governance","Indian Economy","Famous Personalities",
+        "Flora & Fauna","Computers & Applications"
+      ]},
     ]
   }
 };
 
+// ═══════════════════════════════════════════
+//  WEIGHTAGE DATA
+// ═══════════════════════════════════════════
 const WEIGHTAGE = {
   ssc: {
     insight: "Last 5 saal ke pattern analysis se pata chala ki Reasoning aur GK mein 60% questions repeat hote hain. Number System, Profit-Loss aur Polity pe focus karo!",
     subjects: [
-      { icon:"🧩", name:"Reasoning", color:"#f59e0b", total:25, pct:25, topics:[{n:"Series",q:4},{n:"Analogy",q:3},{n:"Coding-Decoding",q:3},{n:"Blood Relation",q:2},{n:"Direction",q:2},{n:"Syllogism",q:2},{n:"Misc",q:9}] },
-      { icon:"🌍", name:"GK", color:"#00b877", total:25, pct:25, topics:[{n:"History",q:6},{n:"Polity",q:5},{n:"Science",q:5},{n:"Geography",q:4},{n:"Economy",q:2},{n:"Current Affairs",q:3}] },
-      { icon:"🔢", name:"Maths", color:"#ff6b00", total:25, pct:25, topics:[{n:"Profit-Loss",q:3},{n:"Percentage",q:3},{n:"SI/CI",q:3},{n:"Time-Work",q:2},{n:"Geometry",q:3},{n:"Algebra",q:3},{n:"DI",q:3},{n:"Misc",q:5}] },
-      { icon:"📝", name:"English", color:"#7c3aed", total:25, pct:25, topics:[{n:"Vocabulary",q:5},{n:"Grammar",q:5},{n:"RC",q:5},{n:"Error",q:4},{n:"Idioms",q:3},{n:"Misc",q:3}] }
+      { icon:"🧩", name:"Reasoning", color:"#f59e0b", total:25, pct:25, topics:[
+        {n:"Series",q:4},{n:"Analogy",q:3},{n:"Coding-Decoding",q:3},{n:"Blood Relation",q:2},
+        {n:"Direction",q:2},{n:"Syllogism",q:2},{n:"Misc",q:9}
+      ]},
+      { icon:"🌍", name:"General Knowledge", color:"#00b877", total:25, pct:25, topics:[
+        {n:"History",q:6},{n:"Polity",q:5},{n:"Science",q:5},{n:"Geography",q:4},
+        {n:"Economy",q:2},{n:"Current Affairs",q:3}
+      ]},
+      { icon:"🔢", name:"Mathematics", color:"#ff6b00", total:25, pct:25, topics:[
+        {n:"Profit-Loss",q:3},{n:"Percentage",q:3},{n:"SI/CI",q:3},{n:"Time-Work",q:2},
+        {n:"Geometry",q:3},{n:"Algebra",q:3},{n:"DI",q:3},{n:"Misc",q:5}
+      ]},
+      { icon:"📝", name:"English", color:"#7c3aed", total:25, pct:25, topics:[
+        {n:"Vocabulary",q:5},{n:"Grammar",q:5},{n:"RC",q:5},{n:"Error",q:4},
+        {n:"Idioms",q:3},{n:"Misc",q:3}
+      ]},
     ]
   },
   ntpc: {
     insight: "NTPC mein GK ka weightage sabse zyada (40%) hai. Current Affairs aur Railways se related GK bahut important hai. Math mein Number System aur Basic Arithmetic focus karo.",
     subjects: [
-      { icon:"🌍", name:"General Awareness", color:"#00b877", total:40, pct:40, topics:[{n:"Current Affairs",q:8},{n:"History",q:6},{n:"Science",q:7},{n:"Geography",q:6},{n:"Polity",q:5},{n:"Economy",q:4},{n:"Misc",q:4}] },
-      { icon:"🔢", name:"Mathematics", color:"#ff6b00", total:30, pct:30, topics:[{n:"Number System",q:5},{n:"Profit-Loss",q:4},{n:"Percentage",q:4},{n:"SI/CI",q:3},{n:"Mensuration",q:4},{n:"Time-Speed",q:4},{n:"Statistics",q:3},{n:"Misc",q:3}] },
-      { icon:"🧩", name:"Reasoning", color:"#f59e0b", total:30, pct:30, topics:[{n:"Series",q:6},{n:"Analogy",q:5},{n:"Coding",q:4},{n:"Direction",q:4},{n:"Blood Relation",q:3},{n:"Venn Diagram",q:3},{n:"Misc",q:5}] }
+      { icon:"🌍", name:"General Awareness", color:"#00b877", total:40, pct:40, topics:[
+        {n:"Current Affairs",q:8},{n:"History",q:6},{n:"Science",q:7},{n:"Geography",q:6},
+        {n:"Polity",q:5},{n:"Economy",q:4},{n:"Misc",q:4}
+      ]},
+      { icon:"🔢", name:"Mathematics", color:"#ff6b00", total:30, pct:30, topics:[
+        {n:"Number System",q:5},{n:"Profit-Loss",q:4},{n:"Percentage",q:4},{n:"SI/CI",q:3},
+        {n:"Mensuration",q:4},{n:"Time-Speed",q:4},{n:"Statistics",q:3},{n:"Misc",q:3}
+      ]},
+      { icon:"🧩", name:"Reasoning", color:"#f59e0b", total:30, pct:30, topics:[
+        {n:"Series",q:6},{n:"Analogy",q:5},{n:"Coding",q:4},{n:"Direction",q:4},
+        {n:"Blood Relation",q:3},{n:"Venn Diagram",q:3},{n:"Misc",q:5}
+      ]},
     ]
   }
 };
 
 // ═══════════════════════════════════════════
-//  3. NAVIGATION LOGIC
+//  NAVIGATION
 // ═══════════════════════════════════════════
 function showTab(tab, screenId, el) {
   document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
@@ -776,17 +805,40 @@ function setPyqExam(exam, el) {
   document.getElementById('pyq-ntpc').style.display = exam==='ntpc' ? 'block' : 'none';
 }
 
+function toggleTheme() {
+  document.body.classList.toggle('dark-mode');
+  const btn = document.getElementById('theme-btn');
+  if(document.body.classList.contains('dark-mode')) {
+    btn.textContent = '☀️';
+    localStorage.setItem('theme', 'dark');
+  } else {
+    btn.textContent = '🌙';
+    localStorage.setItem('theme', 'light');
+  }
+}
+
 // ═══════════════════════════════════════════
-//  4. QUIZ LOGIC
+//  QUIZ
 // ═══════════════════════════════════════════
-const subNames = { math:'🔢 Mathematics', gk:'🌍 General Knowledge', english:'📝 English', reasoning:'🧩 Reasoning' };
+const subNames = {
+  math:'🔢 Mathematics', gk:'🌍 General Knowledge',
+  english:'📝 English', reasoning:'🧩 Reasoning',
+  pyq_ssc24:'📋 SSC CGL PYQ 2024', pyq_ssc23:'📋 SSC CGL PYQ 2023',
+  pyq_ssc23t2:'📋 SSC CGL Tier-2 2023', pyq_ssc22:'📋 SSC CGL PYQ 2022',
+  pyq_ssc21:'📋 SSC CGL PYQ 2021', pyq_ssc20:'📋 SSC CGL PYQ 2020',
+  pyq_ntpc24:'🚂 NTPC PYQ 2024', pyq_ntpc22:'🚂 NTPC PYQ 2022',
+  pyq_ntpc22p2:'🚂 NTPC Phase-2 2022', pyq_ntpc21:'🚂 NTPC PYQ 2021',
+  pyq_ntpc20:'🚂 NTPC PYQ 2020'
+};
+
+let curSubject='', curQs=[], curQ=0, curScore=0, answered=false;
 
 function startQuiz(subj) {
   curSubject = subj;
   const base = allQ[subj] || [];
   curQs = shuffle([...base]);
   curQ = 0; curScore = 0;
-  document.getElementById('quiz-ttl').textContent = subNames[subj] || subj.replace('pyq_','').toUpperCase();
+  document.getElementById('quiz-ttl').textContent = subNames[subj] || subj;
   document.getElementById('quiz-screen').classList.add('show');
   document.body.style.overflow = 'hidden';
   renderQ();
@@ -854,11 +906,15 @@ function showResult() {
   document.getElementById('r-c').textContent = curScore;
   document.getElementById('r-w').textContent = tot-curScore;
   document.getElementById('r-a').textContent = acc+'%';
-  
+  let emoji='📚', lbl='Revision karo, phir try karo!';
+  if(acc>=80){ emoji='🏆'; lbl='Outstanding! Crack kar loge! 🔥'; }
+  else if(acc>=60){ emoji='🎯'; lbl='Bahut Acha! Thodi mehnat aur!'; }
+  else if(acc>=40){ emoji='💪'; lbl='Theek hai! Practice jaari rakho!'; }
+  document.getElementById('res-emoji').textContent = emoji;
+  document.getElementById('res-lbl').textContent = lbl;
   const streak = (parseInt(localStorage.getItem('streak')||'0'))+1;
   localStorage.setItem('streak', streak);
   document.getElementById('home-streak').textContent = streak;
-  
   document.getElementById('quiz-screen').classList.remove('show');
   document.getElementById('result-screen').classList.add('show');
 }
@@ -874,14 +930,16 @@ function closeResult() {
 }
 
 // ═══════════════════════════════════════════
-//  5. MATHS BOOSTER LOGIC
+//  MATHS BOOSTER
 // ═══════════════════════════════════════════
 const bGen = {
   add: () => { const a=rand(10,99),b=rand(10,99); return {q:`${a} + ${b}`,ans:a+b}; },
   sub: () => { const a=rand(20,99),b=rand(1,a-1); return {q:`${a} − ${b}`,ans:a-b}; },
   mul: () => { const a=rand(2,19),b=rand(2,19); return {q:`${a} × ${b}`,ans:a*b}; },
-  pct: () => { const ps=[5,10,20,25,50]; const ns=[20,40,50,100]; const p=ps[rand(0,ps.length-1)],n=ns[rand(0,ns.length-1)]; return {q:`${p}% of ${n}`,ans:(p*n)/100}; },
-  sq: () => { const n=rand(2,20); return {q:`${n}²`,ans:n*n}; }
+  pct: () => { const ps=[5,10,15,20,25,50,75]; const ns=[20,40,50,60,80,100,120,200]; const p=ps[rand(0,ps.length-1)],n=ns[rand(0,ns.length-1)]; return {q:`${p}% of ${n}`,ans:(p*n)/100}; },
+  sq: () => { const n=rand(2,20); return {q:`${n}²`,ans:n*n}; },
+  cube: () => { const n=rand(2,12); return {q:`${n}³`,ans:n*n*n}; },
+  frac: () => { const denoms=[2,4,5,8,10]; const d=denoms[rand(0,denoms.length-1)]; const n=rand(1,d-1); const num=rand(2,50); const r=(n/d)*num; if(r===Math.floor(r)) return {q:`${n}/${d} × ${num}`,ans:r}; return bGen.frac(); },
 };
 
 function rand(a,b){ return Math.floor(Math.random()*(b-a+1))+a; }
@@ -914,26 +972,36 @@ function newBQ() {
   let tries=0;
   while(opts.length<4 && tries<100) {
     tries++;
+    const spread = bAns > 100 ? rand(1,20)*5 : rand(1,10);
     const sign = Math.random()>0.5?1:-1;
-    const fake = bAns + sign*rand(1,10);
+    const fake = bAns + sign*spread;
     if(fake>0 && fake!==bAns && !opts.includes(fake)) opts.push(Math.round(fake));
   }
   opts.sort(()=>Math.random()-0.5);
   ['co0','co1','co2','co3'].forEach((id,i)=>{
     const b=document.getElementById(id);
-    b.textContent = opts[i]; b.className='c-opt'; b.disabled=false; b.dataset.val=opts[i];
+    b.textContent = opts[i];
+    b.className='c-opt';
+    b.disabled=false;
+    b.dataset.val=opts[i];
   });
-  bTimeLeft=10; updateTimer();
+  bTimeLeft=10;
+  updateTimer();
   bTimer = setInterval(()=>{
     bTimeLeft-=0.1;
-    if(bTimeLeft<=0){ clearInterval(bTimer); bWr++; bStr=0; updateBStats(); setTimeout(newBQ,700); }
+    if(bTimeLeft<=0){
+      clearInterval(bTimer);
+      bWr++; bStr=0; updateBStats();
+      setTimeout(newBQ,700);
+    }
     updateTimer();
   },100);
 }
 function updateTimer(){
   document.getElementById('t-txt').textContent=Math.ceil(bTimeLeft)+'s';
+  const pct=bTimeLeft/10*100;
   const fill=document.getElementById('t-fill');
-  fill.style.width=(bTimeLeft/10*100)+'%';
+  fill.style.width=pct+'%';
   fill.style.background=bTimeLeft>5?'var(--yellow)':'var(--red)';
 }
 function checkCalc(idx){
@@ -942,7 +1010,10 @@ function checkCalc(idx){
   const val=parseFloat(b.dataset.val);
   document.querySelectorAll('.c-opt').forEach(x=>x.disabled=true);
   if(val===bAns){ b.classList.add('correct'); bCor++; bStr++; }
-  else { b.classList.add('wrong'); bWr++; bStr=0; document.querySelectorAll('.c-opt').forEach(x=>{ if(parseFloat(x.dataset.val)===bAns) x.classList.add('correct'); }); }
+  else {
+    b.classList.add('wrong'); bWr++; bStr=0;
+    document.querySelectorAll('.c-opt').forEach(x=>{ if(parseFloat(x.dataset.val)===bAns) x.classList.add('correct'); });
+  }
   updateBStats();
   setTimeout(newBQ,900);
 }
@@ -953,37 +1024,87 @@ function updateBStats(){
 }
 
 // ═══════════════════════════════════════════
-//  6. SYLLABUS & WEIGHTAGE RENDERER
+//  SYLLABUS RENDERER
 // ═══════════════════════════════════════════
+let curSyl='ssc';
+function setSyllabus(exam, el) {
+  curSyl=exam;
+  document.querySelectorAll('.syl-tab').forEach(t=>t.classList.remove('active'));
+  el.classList.add('active');
+  renderSyllabus(exam);
+}
 function renderSyllabus(exam) {
   const d = SYLLABUS[exam];
   let html = `<div class="syl-exam-name"><h3>📋 ${d.name}</h3><p>${d.info}</p></div>`;
   d.subjects.forEach((s,i)=>{
     html += `<div class="syl-subject">
-      <div class="syl-subj-head" onclick="toggleSyl(${i})"><span class="s-dot" style="background:${s.color}"></span><span class="syl-subj-name">${s.name}</span><span class="syl-weight">${s.qs}</span><span class="syl-chevron" id="syl-chev-${i}">›</span></div>
-      <div class="syl-topics" id="syl-topics-${i}">${s.topics.map(t=>`<div class="syl-topic-item">${t}</div>`).join('')}</div>
+      <div class="syl-subj-head" onclick="toggleSyl(${i})">
+        <span class="s-dot" style="background:${s.color}"></span>
+        <span class="syl-subj-name">${s.name}</span>
+        <span class="syl-weight">${s.qs}</span>
+        <span class="syl-chevron" id="syl-chev-${i}">›</span>
+      </div>
+      <div class="syl-topics" id="syl-topics-${i}">
+        ${s.topics.map(t=>`<div class="syl-topic-item">${t}</div>`).join('')}
+      </div>
     </div>`;
   });
   document.getElementById('syl-content').innerHTML = html;
 }
 function toggleSyl(i){
-  document.getElementById('syl-topics-'+i).classList.toggle('open');
-  document.getElementById('syl-chev-'+i).classList.toggle('open');
-}
-
-function renderWeightage(exam) {
-  const d = WEIGHTAGE[exam];
-  let html = `<div class="wt-insight"><h4>💡 Strategy Tip</h4><p>${d.insight}</p></div>`;
-  d.subjects.forEach(s=>{
-    const chips = s.topics.map(t=>`<div class="wt-topic-chip">${t.n} <span class="chip-qs">${t.q}Q</span></div>`).join('');
-    html += `<div class="wt-card"><div class="wt-subj-row"><span class="wt-subj-icon">${s.icon}</span><span class="wt-subj-name">${s.name}</span><span class="wt-qs">${s.total} Qs</span></div>
-      <div class="wt-bar-bg"><div class="wt-bar-fill" style="width:${s.pct}%;background:${s.color};"></div></div><div class="wt-topics-grid">${chips}</div></div>`;
-  });
-  document.getElementById('wt-content').innerHTML = html;
+  const t=document.getElementById('syl-topics-'+i);
+  const c=document.getElementById('syl-chev-'+i);
+  t.classList.toggle('open');
+  c.classList.toggle('open');
 }
 
 // ═══════════════════════════════════════════
-//  7. INIT
+//  WEIGHTAGE RENDERER
+// ═══════════════════════════════════════════
+let curWt='ssc';
+function setWtExam(exam, el) {
+  curWt=exam;
+  document.querySelectorAll('.wt-tab').forEach(t=>t.classList.remove('active'));
+  el.classList.add('active');
+  renderWeightage(exam);
+}
+function renderWeightage(exam) {
+  const d = WEIGHTAGE[exam];
+  let html = `<div class="wt-insight">
+    <h4>💡 Strategy Tip</h4>
+    <p>${d.insight}</p>
+  </div>`;
+  d.subjects.forEach(s=>{
+    const chips = s.topics.map(t=>
+      `<div class="wt-topic-chip">${t.n} <span class="chip-qs">${t.q}Q</span></div>`
+    ).join('');
+    html += `<div class="wt-card">
+      <div class="wt-subj-row">
+        <span class="wt-subj-icon">${s.icon}</span>
+        <span class="wt-subj-name">${s.name}</span>
+        <span class="wt-qs">${s.total} Qs</span>
+      </div>
+      <div class="wt-bar-bg">
+        <div class="wt-bar-fill" style="width:${s.pct}%;background:${s.color};"></div>
+      </div>
+      <div class="wt-topics-grid">${chips}</div>
+    </div>`;
+  });
+  document.getElementById('wt-content').innerHTML = html;
+  setTimeout(()=>{
+    document.querySelectorAll('.wt-bar-fill').forEach(b=>{ b.style.width=b.style.width; });
+  },50);
+}
+
+function showToast(msg) {
+  const t=document.getElementById('toast');
+  t.textContent=msg;
+  t.classList.add('show');
+  setTimeout(()=>t.classList.remove('show'),2500);
+}
+
+// ═══════════════════════════════════════════
+//  INIT
 // ═══════════════════════════════════════════
 window.onload = () => {
   if(localStorage.getItem('theme') === 'dark') {
@@ -991,7 +1112,18 @@ window.onload = () => {
     document.getElementById('theme-btn').textContent = '☀️';
   }
   document.getElementById('home-streak').textContent = localStorage.getItem('streak')||'0';
+  if(typeof renderSyllabus === 'function') renderSyllabus('ssc');
+  if(typeof renderWeightage === 'function') renderWeightage('ssc');
 };
+
+if('serviceWorker' in navigator) {
+  navigator.serviceWorker.register('sw.js').then(()=>{
+    console.log('SW registered');
+  }).catch(()=>{});
+}
+
+window.addEventListener('offline', ()=>showToast('📴 Offline mode — app kaam kar raha hai!'));
+window.addEventListener('online', ()=>showToast('🌐 Internet connect ho gaya!'));
 </script>
 </body>
 </html>
